@@ -19,6 +19,7 @@ dependencyResolutionManagement {
   }
 }
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "Application"
 include(":app")
 include(":auth:data")
@@ -29,3 +30,4 @@ include(":core:presentation:ui")
 include(":core:domain")
 include(":core:data")
 include(":core:database")
+include(":content")
