@@ -15,6 +15,11 @@
             <option value="$PROJECT_DIR$/auth/data" />
             <option value="$PROJECT_DIR$/auth/domain" />
             <option value="$PROJECT_DIR$/auth/presentation" />
+            <option value="$PROJECT_DIR$/content" />
+            <option value="$PROJECT_DIR$/content/data" />
+            <option value="$PROJECT_DIR$/content/domain" />
+            <option value="$PROJECT_DIR$/content/network" />
+            <option value="$PROJECT_DIR$/content/presentation" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/data" />
             <option value="$PROJECT_DIR$/core/database" />

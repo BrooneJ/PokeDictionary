@@ -5,6 +5,9 @@
       <module name="Application.app" target="21" />
       <module name="Application.auth.data" target="21" />
       <module name="Application.auth.presentation" target="21" />
+      <module name="Application.content.data" target="21" />
+      <module name="Application.content.network" target="21" />
+      <module name="Application.content.presentation" target="21" />
       <module name="Application.core.data" target="21" />
       <module name="Application.core.database" target="21" />
       <module name="Application.core.presentation.designsystem" target="21" />
