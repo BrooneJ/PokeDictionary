@@ -12,6 +12,9 @@
       <module name="Application.core.database" target="21" />
       <module name="Application.core.presentation.designsystem" target="21" />
       <module name="Application.core.presentation.ui" target="21" />
+      <module name="build-logic.convention" target="21" />
+      <module name="build-logic.convention.main" target="21" />
+      <module name="build-logic.convention.test" target="21" />
     </bytecodeTargetLevel>
   </component>
 </project>
