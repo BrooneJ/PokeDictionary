@@ -3,19 +3,13 @@ plugins {
   alias(libs.plugins.jetbrainsKotlinAndroid)
   alias(libs.plugins.kotlin.compose)
   alias(libs.plugins.mapsplatform.secrets.plugin)
+  alias(libs.plugins.application.android.application)
 }
 
 android {
   namespace = "com.example.application"
-  compileSdk = 35
 
   defaultConfig {
-    applicationId = "com.example.application"
-    minSdk = 24
-    targetSdk = 35
-    versionCode = 1
-    versionName = "1.0"
-
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
 
@@ -25,13 +19,7 @@ android {
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
   }
-  compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-  }
-  kotlinOptions {
-    jvmTarget = "11"
-  }
+
   buildFeatures {
     compose = true
   }

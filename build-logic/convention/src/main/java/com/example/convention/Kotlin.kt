@@ -12,9 +12,9 @@ internal fun Project.configureKotlinAndroid(
   commonExtension: CommonExtension<*, *, *, *, *, *>
 ) {
   commonExtension.apply {
-    compileSdk = libs.findVersion("projectCompileSdk").get().toString().toInt()
+    compileSdk = libs.findVersion("projectCompileSdkVersion").get().toString().toInt()
 
-    defaultConfig.minSdk = libs.findVersion("projectMinSdk").get().toString().toInt()
+    defaultConfig.minSdk = libs.findVersion("projectMinSdkVersion").get().toString().toInt()
 
     compileOptions {
       isCoreLibraryDesugaringEnabled = true

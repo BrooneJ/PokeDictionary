@@ -119,6 +119,8 @@ org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org
 androidDynamicFeature = { id = "com.android.dynamic-feature", version.ref = "agp" }
 mapsplatform-secrets-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsPlugin"}
 
+application-android-application = { id = "application.android.application", version = "unspecified" }
+
 [bundles]
 compose = [
     "androidx-activity-compose",

@@ -12,8 +12,11 @@ dependencies {
   compileOnly(libs.room.gradlePlugin)
 }
 
-kotlin {
-  compilerOptions {
-    jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
+gradlePlugin {
+  plugins {
+    register("androidApplication") {
+      id = "application.android.application"
+      implementationClass = "AndroidApplicationConventionPlugin"
+    }
   }
 }
