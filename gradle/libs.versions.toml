@@ -124,6 +124,7 @@ application-android-library = { id = "application.android.library", version = "u
 application-android-library-compose = { id = "application.android.library.compose", version = "unspecified" }
 application-android-feature-ui = { id = "application.android.feature.ui", version = "unspecified" }
 application-android-room = { id = "application.android.room", version = "unspecified" }
+application-android-jvm-library = { id = "application.jvm.library", version = "unspecified" }
 
 [bundles]
 compose = [
