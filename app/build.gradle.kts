@@ -1,9 +1,7 @@
 plugins {
-  alias(libs.plugins.android.application)
-  alias(libs.plugins.jetbrainsKotlinAndroid)
+  alias(libs.plugins.application.android.application.compose)
   alias(libs.plugins.kotlin.compose)
   alias(libs.plugins.mapsplatform.secrets.plugin)
-  alias(libs.plugins.application.android.application)
 }
 
 android {
@@ -11,10 +9,6 @@ android {
 
   defaultConfig {
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-  }
-
-  buildFeatures {
-    compose = true
   }
 }
 

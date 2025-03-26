@@ -119,6 +119,7 @@ androidDynamicFeature = { id = "com.android.dynamic-feature", version.ref = "agp
 mapsplatform-secrets-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsPlugin"}
 
 application-android-application = { id = "application.android.application", version = "unspecified" }
+application-android-application-compose = { id = "application.android.application.compose", version = "unspecified" }
 
 [bundles]
 compose = [
