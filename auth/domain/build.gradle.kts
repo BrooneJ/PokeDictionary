@@ -1,5 +1,5 @@
 plugins {
-  alias(libs.plugins.application.android.jvm.library)
+  alias(libs.plugins.application.jvm.library)
 }
 
 dependencies {
