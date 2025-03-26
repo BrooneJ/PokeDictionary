@@ -121,6 +121,7 @@ mapsplatform-secrets-plugin = { id = "com.google.android.libraries.mapsplatform.
 application-android-application = { id = "application.android.application", version = "unspecified" }
 application-android-application-compose = { id = "application.android.application.compose", version = "unspecified" }
 application-android-library = { id = "application.android.library", version = "unspecified" }
+application-android-library-compose = { id = "application.android.library.compose", version = "unspecified" }
 
 [bundles]
 compose = [
