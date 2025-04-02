@@ -2,6 +2,8 @@ package com.example.application
 
 import android.app.Application
 import com.example.application.di.appModule
+import com.example.content.network.di.networkModule
+import com.example.core.database.di.databaseModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -19,6 +21,8 @@ class ApplicationApp : Application() {
       androidContext(this@ApplicationApp)
       modules(
         appModule,
+        databaseModule,
+        networkModule
       )
     }
   }
