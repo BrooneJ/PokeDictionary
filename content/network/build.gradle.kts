@@ -9,6 +9,7 @@ android {
 
 dependencies {
   implementation(libs.bundles.koin)
+  implementation(libs.androidx.compose.runtime)
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
