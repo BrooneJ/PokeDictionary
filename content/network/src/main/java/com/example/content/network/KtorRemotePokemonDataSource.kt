@@ -20,9 +20,7 @@ class KtorRemotePokemonDataSource(
       )
     )
 
-    return result.map { pokemonResponseDto ->
-      pokemonResponseDto.toPokemonList()
-    }
+    return result.map { it.toPokemonList() }
   }
 
   override suspend fun getPokemonById(id: Int): Result<Pokemon, DataError.Network> {
