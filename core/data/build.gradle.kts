@@ -9,6 +9,7 @@ android {
 
 dependencies {
   implementation(libs.timber)
+  implementation(libs.bundles.koin)
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
