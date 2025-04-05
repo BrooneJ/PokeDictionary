@@ -13,7 +13,7 @@ class KtorRemotePokemonDataSource(
 ) : RemotePokemonDataSource {
   override suspend fun getPokemonList(page: Int): Result<List<Pokemon>, DataError.Network> {
     val result = httpClient.get<PokemonResponseDto>(
-      route = "/",
+      route = "/pokemon",
       queryParameters = mapOf(
         "limit" to PAGING_SIZE,
         "offset" to (PAGING_SIZE * page),
