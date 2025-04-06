@@ -1,11 +1,14 @@
 package com.example.content.presentation.home
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.content.presentation.home.component.PokemonListItem
 import com.example.content.presentation.home.model.PokemonUi
 import com.example.core.presentation.designsystem.JetpackApplicationTheme
@@ -25,13 +28,15 @@ private fun HomeScreen(
   state: HomeState,
 ) {
   Box {
-    LazyColumn {
-      items(
-        items = state.pokemonList,
-      ) {
+    LazyVerticalGrid(
+      columns = GridCells.Adaptive(minSize = 150.dp),
+    ) {
+      items(state.pokemonList) {
         PokemonListItem(
           pokemonUi = it,
-          modifier = Modifier.animateItem()
+          modifier = Modifier
+            .padding(horizontal = 4.dp)
+            .animateItem()
         )
       }
     }
