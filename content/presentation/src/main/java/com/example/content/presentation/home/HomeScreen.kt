@@ -29,7 +29,7 @@ private fun HomeScreen(
 ) {
   Box {
     LazyVerticalGrid(
-      columns = GridCells.Adaptive(minSize = 150.dp),
+      columns = GridCells.Fixed(2),
     ) {
       items(state.pokemonList) {
         PokemonListItem(
