@@ -33,13 +33,11 @@ fun PokemonListItem(
         .clip(RoundedCornerShape(15.dp))
         .background(MaterialTheme.colorScheme.surface)
     ) {
-      Box {
-        PokemonImage(imageUrl = pokemonUi.imageUrl)
-        Text(
-          text = pokemonUi.nameField,
-          color = MaterialTheme.colorScheme.onSurface
-        )
-      }
+      PokemonImage(imageUrl = pokemonUi.imageUrl)
+      Text(
+        text = pokemonUi.nameField,
+        color = MaterialTheme.colorScheme.onSurface
+      )
     }
   }
 }
