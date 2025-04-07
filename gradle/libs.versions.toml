@@ -37,6 +37,7 @@ kotlinx-serialization = "1.8.0"
 secretsPlugin = "2.0.1"
 playServicesMaps = "19.1.0"
 annotation = "1.9.1"
+kmpalette = "3.1.0"
 
 # Project versions
 projectApplicationId = "com.example.application"
@@ -97,6 +98,8 @@ org-mongodb-bson = { module = "org.mongodb:bson", version.ref = "bson" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 google-maps-android-utils-ktx = { module = "com.google.maps.android:maps-utils-ktx", version.ref = "mapsUtils" }
 annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+kmpalette-core = { module = "com.kmpalette:kmpalette-core", version.ref = "kmpalette" }
+kmpalette-extensions-network = { module = "com.kmpalette:extensions-network", version.ref = "kmpalette" }
 
 # Gradle
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
