@@ -38,7 +38,7 @@ fun PokemonListItem(
   modifier: Modifier = Modifier,
 ) {
   val networkLoader = rememberNetworkLoader()
-  val paletteState = com.kmpalette.rememberPaletteState(loader = networkLoader)
+  val paletteState = com.kmpalette.rememberPaletteState(loader = networkLoader, cacheSize = 6)
   val imageStringToUrl = Url(pokemonUi.imageUrl)
   LaunchedEffect(pokemonUi.imageUrl) {
     paletteState.generate(imageStringToUrl)
