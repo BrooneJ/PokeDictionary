@@ -31,7 +31,7 @@ import com.kmpalette.palette.graphics.Palette
 import io.ktor.http.Url
 
 @Composable
-fun PokemonListItem(
+fun PokemonCard(
   backgroundColor: Color,
   pokemonUi: PokemonUi,
   onPaletteLoaded: (Palette) -> Unit = {},
@@ -112,7 +112,7 @@ private fun PokemonImage(
 @Composable
 private fun PokemonListItemPreview() {
   JetpackApplicationTheme {
-    PokemonListItem(
+    PokemonCard(
       backgroundColor = MaterialTheme.colorScheme.background,
       pokemonUi = PokemonUi(
         page = 0,

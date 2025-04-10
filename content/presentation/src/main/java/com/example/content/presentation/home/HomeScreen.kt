@@ -14,7 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.content.presentation.home.component.PokemonListItem
+import com.example.content.presentation.home.component.PokemonCard
 import com.example.content.presentation.home.component.paletteBackgroundColor
 import com.example.content.presentation.home.model.PokemonUi
 import com.example.core.presentation.designsystem.JetpackApplicationTheme
@@ -46,7 +46,7 @@ private fun HomeScreen(
         var palette = paletteMap[pokemon.imageUrl]
         val backgroundColor by palette.paletteBackgroundColor()
 
-        PokemonListItem(
+        PokemonCard(
           backgroundColor = backgroundColor,
           pokemonUi = pokemon,
           modifier = Modifier
