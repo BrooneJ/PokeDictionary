@@ -1,6 +1,9 @@
 package com.example.content.presentation.home.component
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -11,18 +14,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import com.example.content.presentation.R
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
+import com.example.content.presentation.home.libs.requestOfWithSizeResolver
 import com.example.content.presentation.home.model.PokemonUi
 import com.example.core.presentation.designsystem.JetpackApplicationTheme
 import com.kmpalette.loader.rememberNetworkLoader
 import com.kmpalette.palette.graphics.Palette
 import io.ktor.http.Url
+import timber.log.Timber
 
 @Composable
 fun PokemonCard(
@@ -55,11 +59,21 @@ fun PokemonCard(
     ),
     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
   ) {
-    PokemonImage(imageUrl = pokemonUi.imageUrl)
-    Text(
-      text = pokemonUi.nameField,
-      color = MaterialTheme.colorScheme.onSurface
-    )
+    Column(
+      modifier = Modifier
+        .height(150.dp)
+    ) {
+      PokemonImage(
+        imageUrl = pokemonUi.imageUrl,
+        modifier = Modifier
+          .fillMaxWidth()
+          .weight(1f)
+      )
+      Text(
+        text = pokemonUi.nameField,
+        color = MaterialTheme.colorScheme.onSurface
+      )
+    }
   }
 }
 
@@ -68,12 +82,32 @@ private fun PokemonImage(
   imageUrl: String,
   modifier: Modifier = Modifier
 ) {
-  AsyncImage(
+  val request = requestOfWithSizeResolver(
     model = imageUrl,
+    contentScale = ContentScale.Fit
+  )
+  val painter = rememberAsyncImagePainter(
+    model = imageUrl,
+    onState = { state ->
+      when (state) {
+        is AsyncImagePainter.State.Loading -> Timber.tag("PokemonImage")
+          .d("Loading image: $imageUrl")
+
+        is AsyncImagePainter.State.Success -> Timber.tag("PokemonImage")
+          .d("Successfully loaded image: $imageUrl")
+
+        is AsyncImagePainter.State.Error -> Timber.tag("PokemonImage")
+          .e(state.result.throwable, "Error loading image: $imageUrl")
+
+        else -> Timber.tag("PokemonImage").d("Other state: $state")
+      }
+    }
+  )
+
+  Image(
+    painter = painter,
+    contentDescription = null,
     modifier = modifier
-      .fillMaxWidth()
-      .clip(RoundedCornerShape(15.dp)),
-    contentDescription = stringResource(id = R.string.pokomon_image),
   )
 }
 
