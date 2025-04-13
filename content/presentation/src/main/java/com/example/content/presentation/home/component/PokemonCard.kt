@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
@@ -13,13 +12,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
+import com.example.content.presentation.home.libs.ConstraintsSizeResolver
 import com.example.content.presentation.home.libs.requestOfWithSizeResolver
 import com.example.content.presentation.home.model.PokemonUi
 import com.example.core.presentation.designsystem.JetpackApplicationTheme
@@ -47,9 +49,8 @@ fun PokemonCard(
     }
   }
   Card(
-    modifier = Modifier
-      .padding(6.dp)
-      .fillMaxWidth(),
+    modifier = modifier
+      .height(200.dp),
     shape = RoundedCornerShape(15.dp),
     colors = CardColors(
       containerColor = backgroundColor,
@@ -61,7 +62,7 @@ fun PokemonCard(
   ) {
     Column(
       modifier = Modifier
-        .height(150.dp)
+        .fillMaxWidth()
     ) {
       PokemonImage(
         imageUrl = pokemonUi.imageUrl,
@@ -82,32 +83,46 @@ private fun PokemonImage(
   imageUrl: String,
   modifier: Modifier = Modifier
 ) {
-  val request = requestOfWithSizeResolver(
-    model = imageUrl,
-    contentScale = ContentScale.Fit
-  )
-  val painter = rememberAsyncImagePainter(
-    model = imageUrl,
-    onState = { state ->
-      when (state) {
-        is AsyncImagePainter.State.Loading -> Timber.tag("PokemonImage")
-          .d("Loading image: $imageUrl")
+  val constraintsSizeResolver = remember { ConstraintsSizeResolver() }
 
-        is AsyncImagePainter.State.Success -> Timber.tag("PokemonImage")
-          .d("Successfully loaded image: $imageUrl")
+  Layout(
+    content = {
+      val request = requestOfWithSizeResolver(
+        model = imageUrl,
+        sizeResolver = constraintsSizeResolver,
+        contentScale = ContentScale.Fit
+      )
+      val painter = rememberAsyncImagePainter(
+        model = request,
+        onState = { state ->
+          when (state) {
+            is AsyncImagePainter.State.Loading -> Timber.tag("PokemonImage")
+              .d("Loading image: $imageUrl")
 
-        is AsyncImagePainter.State.Error -> Timber.tag("PokemonImage")
-          .e(state.result.throwable, "Error loading image: $imageUrl")
+            is AsyncImagePainter.State.Success -> Timber.tag("PokemonImage")
+              .d("Successfully loaded image: $imageUrl")
 
-        else -> Timber.tag("PokemonImage").d("Other state: $state")
+            is AsyncImagePainter.State.Error -> Timber.tag("PokemonImage")
+              .e(state.result.throwable, "Error loading image: $imageUrl")
+
+            else -> Timber.tag("PokemonImage").d("Other state: $state")
+          }
+        }
+      )
+      Image(
+        painter = painter,
+        contentDescription = null,
+        modifier = modifier,
+        contentScale = ContentScale.Fit
+      )
+    },
+    modifier = modifier.then(constraintsSizeResolver),
+    measurePolicy = { measurables, constraints ->
+      val placeable = measurables.first().measure(constraints)
+      layout(placeable.width, placeable.height) {
+        placeable.place(0, 0)
       }
     }
-  )
-
-  Image(
-    painter = painter,
-    contentDescription = null,
-    modifier = modifier
   )
 }
 
