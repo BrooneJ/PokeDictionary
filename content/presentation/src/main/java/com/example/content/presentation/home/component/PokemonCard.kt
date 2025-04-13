@@ -3,7 +3,6 @@ package com.example.content.presentation.home.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
@@ -49,8 +48,7 @@ fun PokemonCard(
     }
   }
   Card(
-    modifier = modifier
-      .height(200.dp),
+    modifier = modifier,
     shape = RoundedCornerShape(15.dp),
     colors = CardColors(
       containerColor = backgroundColor,
@@ -68,7 +66,6 @@ fun PokemonCard(
         imageUrl = pokemonUi.imageUrl,
         modifier = Modifier
           .fillMaxWidth()
-          .weight(1f)
       )
       Text(
         text = pokemonUi.nameField,
