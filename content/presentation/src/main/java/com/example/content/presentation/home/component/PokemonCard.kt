@@ -2,7 +2,6 @@ package com.example.content.presentation.home.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
@@ -11,7 +10,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -58,14 +56,10 @@ fun PokemonCard(
     ),
     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
   ) {
-    Column(
-      modifier = Modifier
-        .fillMaxWidth()
-    ) {
+    Column {
       PokemonImage(
         imageUrl = pokemonUi.imageUrl,
         modifier = Modifier
-          .fillMaxWidth()
       )
       Text(
         text = pokemonUi.nameField,
@@ -80,42 +74,46 @@ private fun PokemonImage(
   imageUrl: String,
   modifier: Modifier = Modifier
 ) {
-  val constraintsSizeResolver = remember { ConstraintsSizeResolver() }
+
+  val request = requestOfWithSizeResolver(
+    model = imageUrl,
+    contentScale = ContentScale.Fit
+  )
+
+  val sizeResolver = request.sizeResolver
+
+  val painter = rememberAsyncImagePainter(
+    model = request,
+    onState = { state ->
+      when (state) {
+        is AsyncImagePainter.State.Loading -> Timber.tag("PokemonImage")
+          .d("Loading image: $imageUrl")
+
+        is AsyncImagePainter.State.Success -> Timber.tag("PokemonImage")
+          .d("Successfully loaded image: $imageUrl")
+
+        is AsyncImagePainter.State.Error -> Timber.tag("PokemonImage")
+          .e(state.result.throwable, "Error loading image: $imageUrl")
+
+        else -> Timber.tag("PokemonImage").d("Other state: $state")
+      }
+    }
+  )
 
   Layout(
     content = {
-      val request = requestOfWithSizeResolver(
-        model = imageUrl,
-        sizeResolver = constraintsSizeResolver,
-        contentScale = ContentScale.Fit
-      )
-      val painter = rememberAsyncImagePainter(
-        model = request,
-        onState = { state ->
-          when (state) {
-            is AsyncImagePainter.State.Loading -> Timber.tag("PokemonImage")
-              .d("Loading image: $imageUrl")
-
-            is AsyncImagePainter.State.Success -> Timber.tag("PokemonImage")
-              .d("Successfully loaded image: $imageUrl")
-
-            is AsyncImagePainter.State.Error -> Timber.tag("PokemonImage")
-              .e(state.result.throwable, "Error loading image: $imageUrl")
-
-            else -> Timber.tag("PokemonImage").d("Other state: $state")
-          }
-        }
-      )
       Image(
         painter = painter,
         contentDescription = null,
-        modifier = modifier,
-        contentScale = ContentScale.Fit
       )
     },
-    modifier = modifier.then(constraintsSizeResolver),
-    measurePolicy = { measurables, constraints ->
-      val placeable = measurables.first().measure(constraints)
+    modifier = if (sizeResolver is ConstraintsSizeResolver) {
+      modifier.then(sizeResolver)
+    } else {
+      modifier
+    },
+    measurePolicy = { measurable, constraints ->
+      val placeable = measurable.first().measure(constraints)
       layout(placeable.width, placeable.height) {
         placeable.place(0, 0)
       }
