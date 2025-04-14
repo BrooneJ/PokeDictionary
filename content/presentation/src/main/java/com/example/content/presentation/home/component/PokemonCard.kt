@@ -2,6 +2,7 @@ package com.example.content.presentation.home.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
@@ -46,7 +47,8 @@ fun PokemonCard(
     }
   }
   Card(
-    modifier = modifier,
+    modifier = modifier
+      .padding(4.dp),
     shape = RoundedCornerShape(15.dp),
     colors = CardColors(
       containerColor = backgroundColor,
