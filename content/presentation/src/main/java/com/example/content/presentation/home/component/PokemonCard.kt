@@ -26,14 +26,13 @@ import com.example.content.presentation.home.libs.requestOfWithSizeResolver
 import com.example.content.presentation.home.model.PokemonUi
 import com.example.core.presentation.designsystem.JetpackApplicationTheme
 import com.kmpalette.palette.graphics.Palette
-import timber.log.Timber
 
 @Composable
 fun PokemonCard(
   backgroundColor: Color,
   pokemonUi: PokemonUi,
-  onPaletteLoaded: (Palette) -> Unit = {},
   modifier: Modifier = Modifier,
+  onPaletteLoaded: (Palette) -> Unit = {},
 ) {
   Card(
     modifier = modifier
@@ -77,23 +76,7 @@ private fun PokemonImage(
 
   val sizeResolver = request.sizeResolver
 
-  val painter = rememberAsyncImagePainter(
-    model = request,
-    onState = { state ->
-      when (state) {
-        is AsyncImagePainter.State.Loading -> Timber.tag("PokemonImage")
-          .d("Loading image: $imageUrl")
-
-        is AsyncImagePainter.State.Success -> Timber.tag("PokemonImage")
-          .d("Successfully loaded image: $imageUrl")
-
-        is AsyncImagePainter.State.Error -> Timber.tag("PokemonImage")
-          .e(state.result.throwable, "Error loading image: $imageUrl")
-
-        else -> Timber.tag("PokemonImage").d("Other state: $state")
-      }
-    }
-  )
+  val painter = rememberAsyncImagePainter(model = request)
 
   val state = painter.state
   if (state is AsyncImagePainter.State.Success) {
