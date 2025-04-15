@@ -12,8 +12,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.example.content.presentation.home.libs.ConstraintsSizeResolver
+import com.example.content.presentation.home.libs.rememberPaletteState
 import com.example.content.presentation.home.libs.requestOfWithSizeResolver
 import com.example.content.presentation.home.model.PokemonUi
 import com.example.core.presentation.designsystem.JetpackApplicationTheme
@@ -29,11 +31,13 @@ import com.kmpalette.palette.graphics.Palette
 
 @Composable
 fun PokemonCard(
-  backgroundColor: Color,
   pokemonUi: PokemonUi,
   modifier: Modifier = Modifier,
-  onPaletteLoaded: (Palette) -> Unit = {},
 ) {
+
+  var palette by rememberPaletteState()
+  val backgroundColor by palette.paletteBackgroundColor()
+
   Card(
     modifier = modifier
       .padding(4.dp),
@@ -50,9 +54,7 @@ fun PokemonCard(
       PokemonImage(
         imageUrl = pokemonUi.imageUrl,
         modifier = Modifier,
-        onPaletteLoaded = { palette ->
-          onPaletteLoaded(palette)
-        }
+        onPaletteLoaded = { palette = it }
       )
       Text(
         text = pokemonUi.nameField,
@@ -117,7 +119,6 @@ private fun PokemonImage(
 private fun PokemonListItemPreview() {
   JetpackApplicationTheme {
     PokemonCard(
-      backgroundColor = MaterialTheme.colorScheme.background,
       pokemonUi = PokemonUi(
         page = 0,
         nameField = "Pikachu",

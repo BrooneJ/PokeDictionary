@@ -7,17 +7,12 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.content.presentation.home.component.PokemonCard
-import com.example.content.presentation.home.component.paletteBackgroundColor
 import com.example.content.presentation.home.model.PokemonUi
 import com.example.core.presentation.designsystem.JetpackApplicationTheme
-import com.kmpalette.palette.graphics.Palette
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -33,7 +28,6 @@ fun HomeScreenRoot(
 private fun HomeScreen(
   state: HomeState,
 ) {
-  val paletteMap = remember { mutableStateMapOf<String, Palette>() }
 
   Box(modifier = Modifier.fillMaxSize()) {
     LazyVerticalGrid(
@@ -41,17 +35,10 @@ private fun HomeScreen(
       contentPadding = PaddingValues(6.dp),
     ) {
       items(state.pokemonList) { pokemon ->
-
-        var palette = paletteMap[pokemon.imageUrl]
-        val backgroundColor by palette.paletteBackgroundColor()
-
+        
         PokemonCard(
-          backgroundColor = backgroundColor,
           pokemonUi = pokemon,
           modifier = Modifier,
-          onPaletteLoaded = { newPalette ->
-            paletteMap[pokemon.imageUrl] = newPalette
-          },
         )
       }
     }
