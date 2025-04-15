@@ -2,12 +2,16 @@ package com.example.content.presentation.home.component
 
 import android.graphics.drawable.BitmapDrawable
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -93,10 +97,29 @@ private fun PokemonImage(
 
   Layout(
     content = {
-      Image(
-        painter = painter,
-        contentDescription = null,
-      )
+      when (painter.state) {
+        is AsyncImagePainter.State.Error -> {
+          Text("Error occurred")
+        }
+
+        is AsyncImagePainter.State.Loading -> {
+          Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth()
+          ) {
+            CircularProgressIndicator()
+          }
+        }
+
+        is AsyncImagePainter.State.Success -> {
+          Image(
+            painter = painter,
+            contentDescription = null,
+          )
+        }
+
+        is AsyncImagePainter.State.Empty -> Unit
+      }
     },
     modifier = if (sizeResolver is ConstraintsSizeResolver) {
       modifier.then(sizeResolver)
