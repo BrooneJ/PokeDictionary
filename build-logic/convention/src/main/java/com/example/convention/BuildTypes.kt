@@ -50,7 +50,7 @@ internal fun Project.configureBuildTypes(
 
 private fun BuildType.configureDebugBuildType(apiKey: String) {
   buildConfigField("String", "API_KEY", "\"$apiKey\"")
-  buildConfigField("String", "BASE_URL", "\"https://debug.example.com\"")
+  buildConfigField("String", "BASE_URL", "\"https://pokeapi.co/api/v2\"")
 }
 
 private fun BuildType.configureReleaseBuildType(
@@ -58,7 +58,7 @@ private fun BuildType.configureReleaseBuildType(
   apiKey: String
 ) {
   buildConfigField("String", "API_KEY", "\"$apiKey\"")
-  buildConfigField("String", "BASE_URL", "\"https://debug.example.com\"")
+  buildConfigField("String", "BASE_URL", "\"https://pokeapi.co/api/v2\"")
 
   isMinifyEnabled = false
   proguardFiles(

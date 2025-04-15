@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pokomon_image">Pokemon image</string>
+    <string name="could_not_load_image">Couldn\'t load image.</string>
+</resources>

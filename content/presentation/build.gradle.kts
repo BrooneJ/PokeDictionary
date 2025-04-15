@@ -11,6 +11,7 @@ dependencies {
   implementation(libs.coil.compose)
   implementation(libs.androidx.activity.compose)
   implementation(libs.timber)
+  implementation(libs.kmpalette.core)
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
