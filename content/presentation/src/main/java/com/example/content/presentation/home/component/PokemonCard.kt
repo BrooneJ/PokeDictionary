@@ -1,5 +1,6 @@
 package com.example.content.presentation.home.component
 
+import android.graphics.drawable.BitmapDrawable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,9 +25,7 @@ import com.example.content.presentation.home.libs.ConstraintsSizeResolver
 import com.example.content.presentation.home.libs.requestOfWithSizeResolver
 import com.example.content.presentation.home.model.PokemonUi
 import com.example.core.presentation.designsystem.JetpackApplicationTheme
-import com.kmpalette.loader.rememberNetworkLoader
 import com.kmpalette.palette.graphics.Palette
-import io.ktor.http.Url
 import timber.log.Timber
 
 @Composable
@@ -35,17 +35,6 @@ fun PokemonCard(
   onPaletteLoaded: (Palette) -> Unit = {},
   modifier: Modifier = Modifier,
 ) {
-  val networkLoader = rememberNetworkLoader()
-  val paletteState = com.kmpalette.rememberPaletteState(loader = networkLoader, cacheSize = 6)
-  val imageStringToUrl = Url(pokemonUi.imageUrl)
-  LaunchedEffect(pokemonUi.imageUrl) {
-    paletteState.generate(imageStringToUrl)
-    val palette = paletteState.palette
-
-    if (palette != null) {
-      onPaletteLoaded(palette)
-    }
-  }
   Card(
     modifier = modifier
       .padding(4.dp),
@@ -61,7 +50,10 @@ fun PokemonCard(
     Column {
       PokemonImage(
         imageUrl = pokemonUi.imageUrl,
-        modifier = Modifier
+        modifier = Modifier,
+        onPaletteLoaded = { palette ->
+          onPaletteLoaded(palette)
+        }
       )
       Text(
         text = pokemonUi.nameField,
@@ -74,7 +66,8 @@ fun PokemonCard(
 @Composable
 private fun PokemonImage(
   imageUrl: String,
-  modifier: Modifier = Modifier
+  modifier: Modifier = Modifier,
+  onPaletteLoaded: (Palette) -> Unit = {},
 ) {
 
   val request = requestOfWithSizeResolver(
@@ -101,6 +94,19 @@ private fun PokemonImage(
       }
     }
   )
+
+  val state = painter.state
+  if (state is AsyncImagePainter.State.Success) {
+    val drawable = state.result.drawable
+    if (drawable is BitmapDrawable) {
+      val bitmap = drawable.bitmap
+      val imageBitmap = bitmap.asImageBitmap()
+      LaunchedEffect(imageBitmap) {
+        val palette = Palette.from(imageBitmap).generate()
+        onPaletteLoaded(palette)
+      }
+    }
+  }
 
   Layout(
     content = {

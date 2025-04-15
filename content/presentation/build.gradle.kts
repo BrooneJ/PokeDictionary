@@ -12,8 +12,6 @@ dependencies {
   implementation(libs.androidx.activity.compose)
   implementation(libs.timber)
   implementation(libs.kmpalette.core)
-  implementation(libs.kmpalette.extensions.network)
-  implementation(libs.bundles.ktor)
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
