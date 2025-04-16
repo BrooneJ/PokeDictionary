@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.content.presentation.home.model.PokemonUi
 import com.example.core.domain.content.PokeRepository
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -16,13 +17,17 @@ class HomeViewModel(
   var state by mutableStateOf(HomeState())
     private set
 
-//  private val pokemonFetchingIndex: MutableStateFlow<Int> = MutableStateFlow(0)
+  private val pokemonFetchingIndex: MutableStateFlow<Int> = MutableStateFlow(0)
 
   init {
+    fetchPokemon()
+  }
+
+  fun fetchPokemon() {
     viewModelScope.launch {
-      val result = repository.fetchPokemons(page = 0)
+      val result = repository.fetchPokemons(page = pokemonFetchingIndex.value)
       state = state.copy(
-        pokemonList = result.map { pokemon ->
+        pokemonList = state.pokemonList + result.map { pokemon ->
           PokemonUi(
             page = pokemon.page,
             nameField = pokemon.nameField,
@@ -30,6 +35,7 @@ class HomeViewModel(
           )
         },
       )
+      pokemonFetchingIndex.value += 1
     }
   }
 }
