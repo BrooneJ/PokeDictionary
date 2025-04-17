@@ -6,6 +6,9 @@ data class PokemonUi(
   val url: String,
 ) {
 
+  val name: String
+    get() = nameField.replaceFirstChar { it.uppercase() }
+
   val imageUrl: String
     get() {
       val index = url.split("/".toRegex()).dropLast(1).last()

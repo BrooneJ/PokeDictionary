@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
@@ -36,11 +36,18 @@ private fun HomeScreen(
   val paletteMap = remember { mutableStateMapOf<String, Palette>() }
 
   Box(modifier = Modifier.fillMaxSize()) {
+    val threadHold = 8
     LazyVerticalGrid(
       columns = GridCells.Fixed(2),
       contentPadding = PaddingValues(6.dp),
     ) {
-      items(state.pokemonList) { pokemon ->
+      itemsIndexed(
+        items = state.pokemonList,
+        key = { _, pokemon -> pokemon.name }) { index, pokemon ->
+        if ((index + threadHold) >= state.pokemonList.size) {
+          // Trigger fetching more Pokemon when the user scrolls to the end of the list.
+          // TODO: Implement pagination logic here.
+        }
 
         val palette = paletteMap[pokemon.imageUrl]
         val backgroundColor by palette.paletteBackgroundColor()
