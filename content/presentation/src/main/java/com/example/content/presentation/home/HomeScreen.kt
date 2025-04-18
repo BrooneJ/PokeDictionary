@@ -26,12 +26,14 @@ fun HomeScreenRoot(
 ) {
   HomeScreen(
     state = viewModel.state,
+    onAction = viewModel::onAction
   )
 }
 
 @Composable
 private fun HomeScreen(
   state: HomeState,
+  onAction: (HomeAction) -> Unit,
 ) {
   val paletteMap = remember { mutableStateMapOf<String, Palette>() }
 
@@ -46,7 +48,7 @@ private fun HomeScreen(
         key = { _, pokemon -> pokemon.name }) { index, pokemon ->
         if ((index + threadHold) >= state.pokemonList.size) {
           // Trigger fetching more Pokemon when the user scrolls to the end of the list.
-          // TODO: Implement pagination logic here.
+          onAction(HomeAction.FetchPokemon)
         }
 
         val palette = paletteMap[pokemon.imageUrl]
@@ -94,6 +96,7 @@ private fun HomeScreenPreview() {
           ),
         )
       ),
+      onAction = {}
     )
   }
 }

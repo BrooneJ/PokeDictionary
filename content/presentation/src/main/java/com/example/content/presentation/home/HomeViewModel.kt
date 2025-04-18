@@ -23,6 +23,12 @@ class HomeViewModel(
     fetchPokemon()
   }
 
+  fun onAction(action: HomeAction) {
+    when (action) {
+      HomeAction.FetchPokemon -> fetchPokemon()
+    }
+  }
+
   fun fetchPokemon() {
     viewModelScope.launch {
       val result = repository.fetchPokemons(page = pokemonFetchingIndex.value)
