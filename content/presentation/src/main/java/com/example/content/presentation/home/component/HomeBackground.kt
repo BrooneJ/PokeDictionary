@@ -10,14 +10,14 @@ import com.kmpalette.palette.graphics.Palette
 
 @Composable
 internal fun Palette?.paletteBackgroundColor(): State<Color> {
-  val defaultBackend = MaterialTheme.colorScheme.background
+  val defaultBackground = MaterialTheme.colorScheme.background
   return remember(this) {
     derivedStateOf {
       val rgb = this?.dominantSwatch?.rgb
       if (rgb != null) {
         Color(rgb)
       } else {
-        defaultBackend
+        defaultBackground
       }
     }
   }
