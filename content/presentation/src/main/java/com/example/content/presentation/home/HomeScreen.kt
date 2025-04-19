@@ -56,7 +56,6 @@ private fun HomeScreen(
       ) { index, pokemon ->
         if ((index + threadHold) >= state.pokemonList.size && uiState != HomeUiState.Loading) {
           Timber.d("pokemonList.size: ${state.pokemonList.size}")
-          // Trigger fetching more Pokemon when the user scrolls to the end of the list.
           onAction(HomeAction.FetchPokemon)
         }
 
