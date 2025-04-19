@@ -13,19 +13,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.content.presentation.home.component.PokemonCard
 import com.example.content.presentation.home.component.paletteBackgroundColor
 import com.example.content.presentation.home.model.PokemonUi
 import com.example.core.presentation.designsystem.JetpackApplicationTheme
 import com.kmpalette.palette.graphics.Palette
 import org.koin.androidx.compose.koinViewModel
+import timber.log.Timber
 
 @Composable
 fun HomeScreenRoot(
   viewModel: HomeViewModel = koinViewModel()
 ) {
+  val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
   HomeScreen(
     state = viewModel.state,
+    uiState = uiState,
     onAction = viewModel::onAction
   )
 }
@@ -33,8 +38,10 @@ fun HomeScreenRoot(
 @Composable
 private fun HomeScreen(
   state: HomeState,
+  uiState: HomeUiState,
   onAction: (HomeAction) -> Unit,
 ) {
+
   val paletteMap = remember { mutableStateMapOf<String, Palette>() }
 
   Box(modifier = Modifier.fillMaxSize()) {
@@ -45,8 +52,10 @@ private fun HomeScreen(
     ) {
       itemsIndexed(
         items = state.pokemonList,
-        key = { _, pokemon -> pokemon.name }) { index, pokemon ->
-        if ((index + threadHold) >= state.pokemonList.size) {
+        key = { _, pokemon -> pokemon.name }
+      ) { index, pokemon ->
+        if ((index + threadHold) >= state.pokemonList.size && uiState != HomeUiState.Loading) {
+          Timber.d("pokemonList.size: ${state.pokemonList.size}")
           // Trigger fetching more Pokemon when the user scrolls to the end of the list.
           onAction(HomeAction.FetchPokemon)
         }
@@ -96,6 +105,7 @@ private fun HomeScreenPreview() {
           ),
         )
       ),
+      uiState = HomeUiState.Idle,
       onAction = {}
     )
   }

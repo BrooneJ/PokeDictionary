@@ -16,6 +16,7 @@ class HomeViewModel(
 
   var state by mutableStateOf(HomeState())
     private set
+  val uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState.Loading)
 
   private val pokemonFetchingIndex: MutableStateFlow<Int> = MutableStateFlow(0)
 
@@ -29,7 +30,8 @@ class HomeViewModel(
     }
   }
 
-  fun fetchPokemon() {
+  private fun fetchPokemon() {
+    uiState.value = HomeUiState.Loading
     viewModelScope.launch {
       val result = repository.fetchPokemons(page = pokemonFetchingIndex.value)
       state = state.copy(
@@ -41,7 +43,16 @@ class HomeViewModel(
           )
         },
       )
-      pokemonFetchingIndex.value += 1
+    }
+    uiState.value = HomeUiState.Idle
+    if (uiState.value != HomeUiState.Loading) {
+      pokemonFetchingIndex.value++
     }
   }
+}
+
+sealed interface HomeUiState {
+  data object Idle : HomeUiState
+  data object Loading : HomeUiState
+  data class Error(val message: String?) : HomeUiState
 }
