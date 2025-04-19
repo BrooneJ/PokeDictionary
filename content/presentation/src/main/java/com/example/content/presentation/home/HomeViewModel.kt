@@ -26,7 +26,7 @@ class HomeViewModel(
 
   fun onAction(action: HomeAction) {
     when (action) {
-      HomeAction.FetchPokemon -> fetchPokemon()
+      HomeAction.FetchPokemons -> fetchPokemon()
     }
   }
 

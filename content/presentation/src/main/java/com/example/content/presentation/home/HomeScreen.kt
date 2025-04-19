@@ -56,7 +56,7 @@ private fun HomeScreen(
       ) { index, pokemon ->
         if ((index + threadHold) >= state.pokemonList.size && uiState != HomeUiState.Loading) {
           Timber.d("pokemonList.size: ${state.pokemonList.size}")
-          onAction(HomeAction.FetchPokemon)
+          onAction(HomeAction.FetchPokemons)
         }
 
         val palette = paletteMap[pokemon.imageUrl]
