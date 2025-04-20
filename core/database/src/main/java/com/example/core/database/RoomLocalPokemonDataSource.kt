@@ -8,7 +8,7 @@ class RoomLocalPokemonDataSource(
   private val pokemonDao: PokemonDao
 ) : LocalPokemonDataSource {
 
-  override suspend fun upsertPokemon(pokemon: Pokemon) {
+  override suspend fun insertPokemon(pokemon: Pokemon) {
     TODO("Not yet implemented")
   }
 }
