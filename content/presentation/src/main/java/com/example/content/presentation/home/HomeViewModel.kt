@@ -35,7 +35,7 @@ class HomeViewModel(
     viewModelScope.launch {
       val result = repository.fetchPokemons(page = pokemonFetchingIndex.value)
       state = state.copy(
-        pokemonList = state.pokemonList + result.map { pokemon ->
+        pokemonList = result.map { pokemon ->
           PokemonUi(
             page = pokemon.page,
             nameField = pokemon.nameField,
