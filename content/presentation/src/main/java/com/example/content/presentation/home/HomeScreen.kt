@@ -46,7 +46,7 @@ private fun HomeScreen(
   val paletteMap = remember { mutableStateMapOf<String, Palette>() }
 
   Box(modifier = Modifier.fillMaxSize()) {
-    val threadHold = 8
+    val threshold = 8
     LazyVerticalGrid(
       columns = GridCells.Fixed(2),
       contentPadding = PaddingValues(6.dp),
@@ -55,7 +55,7 @@ private fun HomeScreen(
         items = pokemonList,
         key = { _, pokemon -> pokemon.name }
       ) { index, pokemon ->
-        if ((index + threadHold) >= pokemonList.size && uiState != HomeUiState.Loading) {
+        if ((index + threshold) >= pokemonList.size && uiState != HomeUiState.Loading) {
           onAction(HomeAction.FetchPokemons)
         }
 
