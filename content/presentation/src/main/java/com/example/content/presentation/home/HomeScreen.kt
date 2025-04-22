@@ -16,20 +16,21 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.content.presentation.home.component.PokemonCard
 import com.example.content.presentation.home.component.paletteBackgroundColor
-import com.example.content.presentation.home.model.PokemonUi
+import com.example.content.presentation.home.mapper.toPokemonUi
+import com.example.core.domain.content.Pokemon
 import com.example.core.presentation.designsystem.JetpackApplicationTheme
 import com.kmpalette.palette.graphics.Palette
 import org.koin.androidx.compose.koinViewModel
-import timber.log.Timber
 
 @Composable
 fun HomeScreenRoot(
   viewModel: HomeViewModel = koinViewModel()
 ) {
   val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+  val pokemonList by viewModel.pokemonList.collectAsStateWithLifecycle()
 
   HomeScreen(
-    state = viewModel.state,
+    pokemonList = pokemonList,
     uiState = uiState,
     onAction = viewModel::onAction
   )
@@ -37,7 +38,7 @@ fun HomeScreenRoot(
 
 @Composable
 private fun HomeScreen(
-  state: HomeState,
+  pokemonList: List<Pokemon>,
   uiState: HomeUiState,
   onAction: (HomeAction) -> Unit,
 ) {
@@ -45,17 +46,16 @@ private fun HomeScreen(
   val paletteMap = remember { mutableStateMapOf<String, Palette>() }
 
   Box(modifier = Modifier.fillMaxSize()) {
-    val threadHold = 8
+    val threshold = 8
     LazyVerticalGrid(
       columns = GridCells.Fixed(2),
       contentPadding = PaddingValues(6.dp),
     ) {
       itemsIndexed(
-        items = state.pokemonList,
+        items = pokemonList,
         key = { _, pokemon -> pokemon.name }
       ) { index, pokemon ->
-        if ((index + threadHold) >= state.pokemonList.size && uiState != HomeUiState.Loading) {
-          Timber.d("pokemonList.size: ${state.pokemonList.size}")
+        if ((index + threshold) >= pokemonList.size && uiState != HomeUiState.Loading) {
           onAction(HomeAction.FetchPokemons)
         }
 
@@ -64,7 +64,7 @@ private fun HomeScreen(
 
         PokemonCard(
           backgroundColor = backgroundColor,
-          pokemonUi = pokemon,
+          pokemonUi = pokemon.toPokemonUi(),
           modifier = Modifier,
           onPaletteLoaded = { newPalette ->
             paletteMap[pokemon.imageUrl] = newPalette
@@ -77,32 +77,30 @@ private fun HomeScreen(
 
 @Preview
 @Composable
-private fun HomeScreenPreview() {
+fun HomeScreenPreview() {
   JetpackApplicationTheme {
     HomeScreen(
-      state = HomeState(
-        pokemonList = listOf(
-          PokemonUi(
-            page = 0,
-            nameField = "Pikachu",
-            url = "https://pokeapi.co/api/v2/pokemon/1/",
-          ),
-          PokemonUi(
-            page = 1,
-            nameField = "Bulbasaur",
-            url = "https://pokeapi.co/api/v2/pokemon/2/",
-          ),
-          PokemonUi(
-            page = 2,
-            nameField = "Charmander",
-            url = "https://pokeapi.co/api/v2/pokemon/3/",
-          ),
-          PokemonUi(
-            page = 3,
-            nameField = "Squirtle",
-            url = "https://pokeapi.co/api/v2/pokemon/4/",
-          ),
-        )
+      pokemonList = listOf(
+        Pokemon(
+          page = 0,
+          nameField = "Pikachu",
+          url = "https://pokeapi.co/api/v2/pokemon/1/",
+        ),
+        Pokemon(
+          page = 1,
+          nameField = "Bulbasaur",
+          url = "https://pokeapi.co/api/v2/pokemon/2/",
+        ),
+        Pokemon(
+          page = 2,
+          nameField = "Charmander",
+          url = "https://pokeapi.co/api/v2/pokemon/3/",
+        ),
+        Pokemon(
+          page = 3,
+          nameField = "Squirtle",
+          url = "https://pokeapi.co/api/v2/pokemon/4/",
+        ),
       ),
       uiState = HomeUiState.Idle,
       onAction = {}

@@ -1,8 +1,8 @@
 package com.example.core.database.di
 
 import androidx.room.Room
-import com.example.core.database.RoomLocalPokemonDataSource
 import com.example.core.database.PokemonDatabase
+import com.example.core.database.RoomLocalPokemonDataSource
 import com.example.core.domain.content.LocalPokemonDataSource
 import org.koin.android.ext.koin.androidApplication
 import org.koin.core.module.dsl.singleOf
@@ -14,7 +14,7 @@ val databaseModule = module {
     Room.databaseBuilder(
       androidApplication(),
       PokemonDatabase::class.java,
-      "sample.db"
+      "pokemon.db"
     ).build()
   }
   single { get<PokemonDatabase>().pokemonDao() }
