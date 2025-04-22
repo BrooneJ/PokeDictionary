@@ -1,5 +1,7 @@
 package com.example.core.domain.content
 
+import kotlinx.coroutines.flow.Flow
+
 interface PokeRepository {
-  suspend fun fetchPokemons(page: Int): List<Pokemon>
+  fun fetchPokemons(page: Int): Flow<List<Pokemon>>
 }
