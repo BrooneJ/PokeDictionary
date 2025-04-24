@@ -3,7 +3,6 @@ package com.example.content.network
 import androidx.compose.runtime.Immutable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlin.random.Random
 
 @Immutable
 @Serializable
@@ -15,29 +14,7 @@ data class PokemonDetailsDto(
   @SerialName(value = "base_experience") val experience: Int,
   @SerialName(value = "types") val types: List<TypeResponse>,
   @SerialName(value = "stats") val stats: List<StatsResponse>,
-  val exp: Int = Random.nextInt(MAX_EXP)
 ) {
-  val hp: Int by lazy {
-    stats.firstOrNull { it.stat.name == "hp" }?.baseStat ?: Random.nextInt(MAX_HP)
-  }
-  val attack: Int by lazy {
-    stats.firstOrNull { it.stat.name == "attack" }?.baseStat ?: Random.nextInt(MAX_ATTACK)
-  }
-  val defense: Int by lazy {
-    stats.firstOrNull { it.stat.name == "defense" }?.baseStat ?: Random.nextInt(MAX_DEFENSE)
-  }
-  val speed: Int by lazy {
-    stats.firstOrNull { it.stat.name == "speed" }?.baseStat ?: Random.nextInt(MAX_SPEED)
-  }
-
-  fun getIdString(): String = String.format("#%03d", id)
-  fun getWeightString(): String = String.format("%.1f KG", weight.toFloat() / 10)
-  fun getHeightString(): String = String.format("%.1f M", height.toFloat() / 10)
-  fun getHpString(): String = " $hp/$MAX_HP"
-  fun getAttackString(): String = " $attack/$MAX_ATTACK"
-  fun getDefenseString(): String = " $defense/$MAX_DEFENSE"
-  fun getSpeedString(): String = " $speed/$MAX_SPEED"
-  fun getExpString(): String = " $exp/$MAX_EXP"
 
   @Serializable
   data class TypeResponse(
@@ -61,12 +38,4 @@ data class PokemonDetailsDto(
   data class Type(
     @SerialName(value = "name") val name: String
   )
-
-  companion object {
-    const val MAX_HP = 300
-    const val MAX_ATTACK = 300
-    const val MAX_DEFENSE = 300
-    const val MAX_SPEED = 300
-    const val MAX_EXP = 1000
-  }
 }
