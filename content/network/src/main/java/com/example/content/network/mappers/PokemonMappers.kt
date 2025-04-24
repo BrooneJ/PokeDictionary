@@ -1,5 +1,6 @@
-package com.example.content.network
+package com.example.content.network.mappers
 
+import com.example.content.network.PokemonResponseDto
 import com.example.core.domain.content.Pokemon
 
 fun PokemonResponseDto.toPokemonList(): List<Pokemon> {
