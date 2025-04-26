@@ -17,7 +17,7 @@ fun DetailsScreenRoot(
 
 @Composable
 private fun DetailsScreen(
-  state: DetailsState,
+  state: DetailsUiState,
   onAction: (DetailsAction) -> Unit
 ) {
 
@@ -28,7 +28,7 @@ private fun DetailsScreen(
 private fun DetailsScreenPreview() {
   JetpackApplicationTheme {
     DetailsScreen(
-      state = DetailsState(),
+      state = DetailsUiState(),
       onAction = {}
     )
   }
