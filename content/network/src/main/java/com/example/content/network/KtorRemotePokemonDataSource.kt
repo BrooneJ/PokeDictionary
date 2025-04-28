@@ -26,9 +26,9 @@ class KtorRemotePokemonDataSource(
     return result.map { it.toPokemonList() }
   }
 
-  override suspend fun getPokemonById(id: Int): Result<PokemonDetails, DataError.Network> {
+  override suspend fun getPokemonByName(name: String): Result<PokemonDetails, DataError.Network> {
     val result = httpClient.get<PokemonDetailsDto>(
-      route = "/pokemon/$id",
+      route = "/pokemon/$name",
     )
 
     return result.map { it.toPokemonDetails() }

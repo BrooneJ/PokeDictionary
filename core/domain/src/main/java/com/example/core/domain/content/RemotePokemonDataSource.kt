@@ -5,5 +5,5 @@ import com.example.core.domain.util.Result
 
 interface RemotePokemonDataSource {
   suspend fun getPokemonList(page: Int): Result<List<Pokemon>, DataError.Network>
-  suspend fun getPokemonById(id: Int): Result<PokemonDetails, DataError.Network>
+  suspend fun getPokemonByName(name: String): Result<PokemonDetails, DataError.Network>
 }
