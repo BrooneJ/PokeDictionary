@@ -37,7 +37,6 @@ fun HomeScreenRoot(
       when (action) {
         HomeAction.FetchPokemons -> viewModel.onAction(action)
         is HomeAction.OnPokemonClick -> onPokemonClick(action.pokemonName)
-        else -> Unit
       }
     }
   )
