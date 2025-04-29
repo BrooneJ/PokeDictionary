@@ -29,32 +29,13 @@ class DetailsViewModel(
 
   init {
     viewModelScope.launch {
-      val pokemonInfo = repository.fetchPokemonDetails(pokemonName)
+      val pokemonInfo = fetchDetails()
       _pokemon.value = pokemonInfo
     }
   }
 
-  fun onAction(action: DetailsAction) {
-    when (action) {
-      DetailsAction.FetchDetails -> {
-        viewModelScope.launch {
-          uiState.value = DetailsUiState.Loading
-          try {
-            val pokemonDetailsResult = fetchDetails()
-            state = state.copy(
-              state = pokemonDetailsResult
-            )
-            uiState.value = DetailsUiState.Idle
-          } catch (e: Exception) {
-            uiState.value = DetailsUiState.Error(e.message)
-          }
-        }
-      }
-    }
-  }
-
   private suspend fun fetchDetails(): PokemonDetails? {
-    return repository.fetchPokemonDetails(pokemon.value?.name ?: "")
+    return repository.fetchPokemonDetails(pokemonName)
   }
 }
 

@@ -7,8 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.core.domain.content.PokemonDetails
+import com.example.core.presentation.designsystem.JetpackApplicationTheme
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -21,7 +23,6 @@ fun DetailsScreenRoot(
   DetailsScreen(
     state = viewModel.state,
     uiState = uiState,
-    onAction = viewModel::onAction,
     pokemon = pokemon
   )
 }
@@ -30,7 +31,6 @@ fun DetailsScreenRoot(
 private fun DetailsScreen(
   state: DetailsState,
   uiState: DetailsUiState,
-  onAction: (DetailsAction) -> Unit,
   pokemon: PokemonDetails?
 ) {
   Box(
@@ -42,19 +42,23 @@ private fun DetailsScreen(
   }
 }
 
-//@Preview
-//@Composable
-//private fun DetailsScreenPreview() {
-//  JetpackApplicationTheme {
-//    DetailsScreen(
-//      state = DetailsState(),
-//      uiState = DetailsUiState.Loading,
-//      onAction = {},
-//      pokemon = Pokemon(
-//        page = 0,
-//        nameField = "pikachu",
-//        url = "https://pokeapi.co/api/v2/pokemon/25/"
-//      )
-//    )
-//  }
-//}
+@Preview
+@Composable
+private fun DetailsScreenPreview() {
+  JetpackApplicationTheme {
+    DetailsScreen(
+      state = DetailsState(),
+      uiState = DetailsUiState.Loading,
+      pokemon = PokemonDetails(
+        id = 1,
+        name = "Pikachu",
+        height = 123,
+        weight = 123,
+        experience = 33,
+        types = listOf(),
+        stats = listOf(),
+        exp = 123,
+      )
+    )
+  }
+}
