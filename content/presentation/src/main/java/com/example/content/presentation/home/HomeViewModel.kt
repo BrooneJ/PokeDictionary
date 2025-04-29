@@ -2,9 +2,6 @@
 
 package com.example.content.presentation.home
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.domain.content.PokeRepository
@@ -18,11 +15,12 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import timber.log.Timber
 
 class HomeViewModel(
   private val repository: PokeRepository,
 ) : ViewModel() {
-  
+
   val uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState.Loading)
 
   private val pokemonFetchingIndex: MutableStateFlow<Int> = MutableStateFlow(0)
@@ -41,6 +39,7 @@ class HomeViewModel(
   fun onAction(action: HomeAction) {
     when (action) {
       HomeAction.FetchPokemons -> fetchPokemon()
+      else -> Timber.d("Unhandled action: $action")
     }
   }
 

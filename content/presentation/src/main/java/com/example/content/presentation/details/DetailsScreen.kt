@@ -1,22 +1,29 @@
 package com.example.content.presentation.details
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.core.presentation.designsystem.JetpackApplicationTheme
+import com.example.core.domain.content.PokemonDetails
 import org.koin.androidx.compose.koinViewModel
+import timber.log.Timber
 
 @Composable
 fun DetailsScreenRoot(
   viewModel: DetailsViewModel = koinViewModel()
 ) {
+  val pokemon by viewModel.pokemon.collectAsStateWithLifecycle()
   val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
   DetailsScreen(
     state = viewModel.state,
     uiState = uiState,
-    onAction = viewModel::onAction
+    onAction = viewModel::onAction,
+    pokemon = pokemon
   )
 }
 
@@ -24,19 +31,32 @@ fun DetailsScreenRoot(
 private fun DetailsScreen(
   state: DetailsState,
   uiState: DetailsUiState,
-  onAction: (DetailsAction) -> Unit
+  onAction: (DetailsAction) -> Unit,
+  pokemon: PokemonDetails?
 ) {
-
-}
-
-@Preview
-@Composable
-private fun DetailsScreenPreview() {
-  JetpackApplicationTheme {
-    DetailsScreen(
-      state = DetailsState(),
-      uiState = DetailsUiState.Loading,
-      onAction = {}
-    )
+  Timber.d("Pokemon: $pokemon")
+  Box(
+    modifier = Modifier
+      .fillMaxWidth(),
+    contentAlignment = Alignment.Center,
+  ) {
+    Text("${pokemon?.name}")
   }
 }
+
+//@Preview
+//@Composable
+//private fun DetailsScreenPreview() {
+//  JetpackApplicationTheme {
+//    DetailsScreen(
+//      state = DetailsState(),
+//      uiState = DetailsUiState.Loading,
+//      onAction = {},
+//      pokemon = Pokemon(
+//        page = 0,
+//        nameField = "pikachu",
+//        url = "https://pokeapi.co/api/v2/pokemon/25/"
+//      )
+//    )
+//  }
+//}

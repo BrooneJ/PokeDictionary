@@ -2,6 +2,7 @@ package com.example.content.presentation.home.component
 
 import android.graphics.drawable.BitmapDrawable
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,10 +38,12 @@ fun PokemonCard(
   pokemonUi: PokemonUi,
   modifier: Modifier = Modifier,
   onPaletteLoaded: (Palette) -> Unit = {},
+  onClick: () -> Unit = {},
 ) {
   Card(
     modifier = modifier
-      .padding(4.dp),
+      .padding(4.dp)
+      .clickable { onClick() },
     shape = RoundedCornerShape(15.dp),
     colors = CardColors(
       containerColor = backgroundColor,

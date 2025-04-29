@@ -3,6 +3,7 @@ package com.example.core.data.content
 import com.example.core.database.RoomLocalPokemonDataSource
 import com.example.core.domain.content.PokeRepository
 import com.example.core.domain.content.Pokemon
+import com.example.core.domain.content.PokemonDetails
 import com.example.core.domain.content.RemotePokemonDataSource
 import com.example.core.domain.util.Result
 import kotlinx.coroutines.Dispatchers
@@ -43,4 +44,13 @@ class OfflineFirstPokeRepository(
       }
     }
   }.flowOn(Dispatchers.IO)
+
+  override suspend fun fetchPokemonDetails(name: String): PokemonDetails? {
+    when (val pokemonDetails = remotePokeDataSource.getPokemonByName(name)) {
+      is Result.Error -> return null
+      is Result.Success -> {
+        return pokemonDetails.data
+      }
+    }
+  }
 }
