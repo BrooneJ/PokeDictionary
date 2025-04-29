@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.core.domain.content.PokemonDetails
 import org.koin.androidx.compose.koinViewModel
-import timber.log.Timber
 
 @Composable
 fun DetailsScreenRoot(
@@ -34,7 +33,6 @@ private fun DetailsScreen(
   onAction: (DetailsAction) -> Unit,
   pokemon: PokemonDetails?
 ) {
-  Timber.d("Pokemon: $pokemon")
   Box(
     modifier = Modifier
       .fillMaxWidth(),

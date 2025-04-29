@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
-import timber.log.Timber
 
 class HomeViewModel(
   private val repository: PokeRepository,
@@ -39,7 +38,7 @@ class HomeViewModel(
   fun onAction(action: HomeAction) {
     when (action) {
       HomeAction.FetchPokemons -> fetchPokemon()
-      else -> Timber.d("Unhandled action: $action")
+      else -> Unit
     }
   }
 

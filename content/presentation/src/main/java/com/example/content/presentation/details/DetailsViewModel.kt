@@ -12,7 +12,6 @@ import com.example.core.domain.content.PokemonDetails
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class DetailsViewModel(
   private val repository: PokeRepository,
@@ -27,11 +26,9 @@ class DetailsViewModel(
   var state by mutableStateOf(DetailsState())
     private set
   val uiState: MutableStateFlow<DetailsUiState> = MutableStateFlow(DetailsUiState.Loading)
-//  val pokemon = savedStateHandle.getStateFlow<Pokemon?>("pokemon", null)
 
   init {
     viewModelScope.launch {
-      Timber.d("Pokemon name: $pokemonName")
       val pokemonInfo = repository.fetchPokemonDetails(pokemonName)
       _pokemon.value = pokemonInfo
     }
@@ -44,7 +41,6 @@ class DetailsViewModel(
           uiState.value = DetailsUiState.Loading
           try {
             val pokemonDetailsResult = fetchDetails()
-            Timber.d("Pokemon details: $pokemonDetailsResult")
             state = state.copy(
               state = pokemonDetailsResult
             )
