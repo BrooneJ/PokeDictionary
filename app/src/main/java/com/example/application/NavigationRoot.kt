@@ -45,31 +45,5 @@ private fun NavGraphBuilder.homeGraph(navController: NavHostController) {
     ) { backStackEntry ->
       DetailsScreenRoot()
     }
-//    composable(route = "register") {
-//      RegisterScreenRoot(
-//        onSignInClick = {
-//          navController.navigate("login") {
-//            popUpTo("register") {
-//              inclusive = true
-//              saveState = true
-//            }
-//            restoreState = true
-//          }
-//        },
-//        onSuccessfulRegistration = {
-//          navController.navigate("login")
-//        }
-//      )
-//    }
-//    composable(route = "login") {
-//      LoginScreenRoot(
-//        onSignUpClick = {
-//          navController.navigate("register")
-//        },
-//        onSignInClick = {
-//          navController.navigate("run")
-//        }
-//      )
-//    }
   }
 }
