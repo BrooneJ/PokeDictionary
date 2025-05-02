@@ -1,5 +1,8 @@
 package com.example.core.domain.content
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Pokemon(
   var page: Int = 0,
   val nameField: String,
