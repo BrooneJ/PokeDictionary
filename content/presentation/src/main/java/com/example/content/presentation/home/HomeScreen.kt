@@ -25,7 +25,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeScreenRoot(
   viewModel: HomeViewModel = koinViewModel(),
-  onPokemonClick: (String) -> Unit
+  onPokemonClick: (Pokemon) -> Unit
 ) {
   val uiState by viewModel.uiState.collectAsStateWithLifecycle()
   val pokemonList by viewModel.pokemonList.collectAsStateWithLifecycle()
@@ -36,7 +36,7 @@ fun HomeScreenRoot(
     onAction = { action ->
       when (action) {
         HomeAction.FetchPokemons -> viewModel.onAction(action)
-        is HomeAction.OnPokemonClick -> onPokemonClick(action.pokemonName)
+        is HomeAction.OnPokemonClick -> onPokemonClick(action.pokemon)
       }
     }
   )
@@ -75,7 +75,7 @@ private fun HomeScreen(
           onPaletteLoaded = { newPalette ->
             paletteMap[pokemon.imageUrl] = newPalette
           },
-          onClick = { onAction(HomeAction.OnPokemonClick(pokemon.nameField.replaceFirstChar { it.lowercase() })) }
+          onClick = { onAction(HomeAction.OnPokemonClick(pokemon)) }
         )
       }
     }

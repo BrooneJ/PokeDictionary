@@ -28,14 +28,16 @@ private fun NavGraphBuilder.homeGraph(navController: NavHostController) {
   ) {
     composable<PokeDicScreen.Base> {
       HomeScreenRoot(
-        onPokemonClick = { name ->
-          navController.navigate(PokeDicScreen.Details(name))
+        onPokemonClick = { pokemon ->
+          navController.navigate(PokeDicScreen.Details(pokemon))
         }
       )
     }
-    composable<PokeDicScreen.Details> { backStackEntry ->
-      val name = backStackEntry.toRoute<PokeDicScreen.Details>()
-      DetailsScreenRoot()
+    composable<PokeDicScreen.Details>(
+      typeMap = PokeDicScreen.Details.typeMap
+    ) { backStackEntry ->
+      val pokemon = backStackEntry.toRoute<PokeDicScreen.Details>()
+      DetailsScreenRoot(pokemon = pokemon.pokemon)
     }
   }
 }

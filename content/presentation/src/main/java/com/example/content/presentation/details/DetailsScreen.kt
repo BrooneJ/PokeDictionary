@@ -9,15 +9,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.core.domain.content.PokemonDetails
+import com.example.core.domain.content.Pokemon
 import com.example.core.presentation.designsystem.JetpackApplicationTheme
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun DetailsScreenRoot(
+  pokemon: Pokemon,
   viewModel: DetailsViewModel = koinViewModel()
 ) {
-  val pokemon by viewModel.pokemon.collectAsStateWithLifecycle()
   val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
   DetailsScreen(
@@ -31,14 +31,15 @@ fun DetailsScreenRoot(
 private fun DetailsScreen(
   state: DetailsState,
   uiState: DetailsUiState,
-  pokemon: PokemonDetails?
+  pokemon: Pokemon
 ) {
+
   Box(
     modifier = Modifier
       .fillMaxWidth(),
     contentAlignment = Alignment.Center,
   ) {
-    Text("${pokemon?.name}")
+    Text(pokemon.nameField)
   }
 }
 
@@ -49,15 +50,10 @@ private fun DetailsScreenPreview() {
     DetailsScreen(
       state = DetailsState(),
       uiState = DetailsUiState.Loading,
-      pokemon = PokemonDetails(
-        id = 1,
-        name = "Pikachu",
-        height = 123,
-        weight = 123,
-        experience = 33,
-        types = listOf(),
-        stats = listOf(),
-        exp = 123,
+      pokemon = Pokemon(
+        page = 0,
+        nameField = "Pikachu",
+        url = "https://pokeapi.co/api/v2/pokemon/1/"
       )
     )
   }
