@@ -62,11 +62,8 @@ dependencies {
   implementation(projects.core.database)
   implementation(projects.core.data)
   implementation(projects.core.navigation)
-
-  implementation(projects.auth.presentation)
-  implementation(projects.auth.domain)
-  implementation(projects.auth.data)
-
+  implementation(projects.core.model)
+  
   implementation(projects.content.presentation)
   implementation(projects.content.domain)
   implementation(projects.content.network)

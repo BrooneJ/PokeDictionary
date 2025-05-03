@@ -1,7 +1,7 @@
 package com.example.content.network.mappers
 
 import com.example.content.network.PokemonResponseDto
-import com.example.core.domain.content.Pokemon
+import com.example.core.model.Pokemon
 
 fun PokemonResponseDto.toPokemonList(): List<Pokemon> {
   return results.map { pokemonDto ->

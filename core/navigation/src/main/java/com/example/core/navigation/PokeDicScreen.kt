@@ -1,6 +1,6 @@
 package com.example.core.navigation
 
-import com.example.core.domain.content.Pokemon
+import com.example.core.model.Pokemon
 import kotlinx.serialization.Serializable
 import kotlin.reflect.typeOf
 

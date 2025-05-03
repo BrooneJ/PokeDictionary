@@ -1,4 +1,4 @@
-package com.example.core.domain.content
+package com.example.core.model
 
 import kotlinx.serialization.Serializable
 

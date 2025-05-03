@@ -1,7 +1,7 @@
 package com.example.content.network.mappers
 
 import com.example.content.network.PokemonDetailsDto
-import com.example.core.domain.content.PokemonDetails
+import com.example.core.model.PokemonDetails
 
 fun PokemonDetailsDto.toPokemonDetails(): PokemonDetails {
   return PokemonDetails(

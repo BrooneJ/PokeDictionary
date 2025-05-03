@@ -3,7 +3,7 @@ package com.example.core.navigation
 import android.net.Uri
 import android.os.Bundle
 import androidx.navigation.NavType
-import com.example.core.domain.content.Pokemon
+import com.example.core.model.Pokemon
 import kotlinx.serialization.json.Json
 
 object PokemonType : NavType<Pokemon>(

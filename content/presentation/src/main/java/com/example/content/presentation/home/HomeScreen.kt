@@ -17,7 +17,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.content.presentation.home.component.PokemonCard
 import com.example.content.presentation.home.component.paletteBackgroundColor
 import com.example.content.presentation.home.mapper.toPokemonUi
-import com.example.core.domain.content.Pokemon
+import com.example.core.model.Pokemon
 import com.example.core.presentation.designsystem.JetpackApplicationTheme
 import com.kmpalette.palette.graphics.Palette
 import org.koin.androidx.compose.koinViewModel

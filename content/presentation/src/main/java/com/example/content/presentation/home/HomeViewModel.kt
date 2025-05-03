@@ -5,7 +5,7 @@ package com.example.content.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.domain.content.PokeRepository
-import com.example.core.domain.content.Pokemon
+import com.example.core.model.Pokemon
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

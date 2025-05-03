@@ -4,9 +4,9 @@ import com.example.core.database.dao.PokemonDao
 import com.example.core.database.entity.mapper.asDomain
 import com.example.core.database.entity.mapper.asEntity
 import com.example.core.domain.content.LocalPokemonDataSource
-import com.example.core.domain.content.Pokemon
 import com.example.core.domain.util.DataError
 import com.example.core.domain.util.Result
+import com.example.core.model.Pokemon
 
 class RoomLocalPokemonDataSource(
   private val pokemonDao: PokemonDao

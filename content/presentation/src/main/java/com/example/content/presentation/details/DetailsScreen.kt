@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.core.domain.content.Pokemon
+import com.example.core.model.Pokemon
 import com.example.core.presentation.designsystem.JetpackApplicationTheme
 import org.koin.androidx.compose.koinViewModel
 

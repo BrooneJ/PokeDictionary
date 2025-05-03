@@ -3,12 +3,12 @@ package com.example.content.network
 import com.example.content.network.mappers.toPokemonDetails
 import com.example.content.network.mappers.toPokemonList
 import com.example.core.data.networking.get
-import com.example.core.domain.content.Pokemon
-import com.example.core.domain.content.PokemonDetails
 import com.example.core.domain.content.RemotePokemonDataSource
 import com.example.core.domain.util.DataError
 import com.example.core.domain.util.Result
 import com.example.core.domain.util.map
+import com.example.core.model.Pokemon
+import com.example.core.model.PokemonDetails
 import io.ktor.client.HttpClient
 
 class KtorRemotePokemonDataSource(

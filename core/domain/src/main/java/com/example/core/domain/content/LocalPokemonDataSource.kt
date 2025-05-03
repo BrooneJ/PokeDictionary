@@ -2,6 +2,7 @@ package com.example.core.domain.content
 
 import com.example.core.domain.util.DataError
 import com.example.core.domain.util.Result
+import com.example.core.model.Pokemon
 
 interface LocalPokemonDataSource {
   suspend fun insertPokemon(pokemonList: List<Pokemon>)

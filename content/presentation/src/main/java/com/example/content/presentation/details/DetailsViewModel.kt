@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.core.domain.content.PokeRepository
-import com.example.core.domain.content.PokemonDetails
+import com.example.core.model.PokemonDetails
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class DetailsViewModel(
