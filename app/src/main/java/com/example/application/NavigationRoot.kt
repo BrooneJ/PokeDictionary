@@ -9,6 +9,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.toRoute
 import com.example.content.presentation.details.DetailsScreenRoot
 import com.example.content.presentation.home.HomeScreenRoot
+import com.example.core.navigation.PokeDicScreen
 
 @Composable
 fun NavigationRoot(

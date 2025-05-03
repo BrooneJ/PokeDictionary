@@ -1,4 +1,4 @@
-package com.example.application
+package com.example.core.navigation
 
 import com.example.core.domain.content.Pokemon
 import kotlinx.serialization.Serializable

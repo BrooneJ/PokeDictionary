@@ -1,4 +1,4 @@
-package com.example.application
+package com.example.core.navigation
 
 import android.net.Uri
 import android.os.Bundle
