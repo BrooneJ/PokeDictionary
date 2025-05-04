@@ -21,7 +21,6 @@ import com.example.core.model.Pokemon
 import com.example.core.presentation.designsystem.JetpackApplicationTheme
 import com.kmpalette.palette.graphics.Palette
 import org.koin.androidx.compose.koinViewModel
-import timber.log.Timber
 
 @Composable
 fun HomeScreenRoot(
@@ -30,7 +29,6 @@ fun HomeScreenRoot(
 ) {
   val uiState by viewModel.uiState.collectAsStateWithLifecycle()
   val pokemonList by viewModel.pokemonList.collectAsStateWithLifecycle()
-  Timber.d("HomeScreenRoot: $pokemonList")
 
   HomeScreen(
     pokemonList = pokemonList,
