@@ -2,14 +2,15 @@ package com.example.core.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Parcelize
 @Serializable
 data class Pokemon(
   var page: Int = 0,
-  val nameField: String,
-  val url: String,
+  @SerialName(value = "name") val nameField: String,
+  @SerialName(value = "url") val url: String,
 ) : Parcelable {
 
   val name: String
