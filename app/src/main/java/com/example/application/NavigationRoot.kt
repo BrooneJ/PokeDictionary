@@ -37,9 +37,9 @@ private fun NavGraphBuilder.homeGraph(navController: NavHostController) {
     composable<PokeDicScreen.Details>(
       typeMap = PokeDicScreen.Details.typeMap
     ) { backStackEntry ->
-      val pokemon = backStackEntry.toRoute<PokeDicScreen.Details>()
-      backStackEntry.savedStateHandle.set("pokemon", pokemon.pokemon)
-      DetailsScreenRoot(pokemon = pokemon.pokemon)
+      val pokemon = backStackEntry.toRoute<PokeDicScreen.Details>().pokemon
+      backStackEntry.savedStateHandle.set("pokemon", pokemon)
+      DetailsScreenRoot()
     }
   }
 }

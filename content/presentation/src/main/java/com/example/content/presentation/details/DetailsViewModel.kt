@@ -19,18 +19,13 @@ class DetailsViewModel(
   savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-  val pokemon = savedStateHandle.get<Pokemon>("pokemon") ?: Pokemon(
-    page = 0,
-    nameField = "Pikachu",
-    url = "https://pokeapi.co/api/v2/pokemon/1/"
-  )
+  val pokemon = checkNotNull(savedStateHandle.get<Pokemon>("pokemon"))
 
   var state by mutableStateOf(DetailsState())
     private set
   val uiState: MutableStateFlow<DetailsUiState> = MutableStateFlow(DetailsUiState.Loading)
 
   init {
-    Timber.d("DetailsViewModel: $pokemon")
     viewModelScope.launch {
       val pokemonInfo = fetchDetails(pokemon.nameField.replaceFirstChar { it.lowercase() })
       Timber.d("fetchDetails: $pokemonInfo")

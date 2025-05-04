@@ -1,6 +1,7 @@
 package com.example.content.presentation.details
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,9 +16,9 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun DetailsScreenRoot(
-  pokemon: Pokemon,
   viewModel: DetailsViewModel = koinViewModel()
 ) {
+  val pokemon = viewModel.pokemon
   val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
   DetailsScreen(
@@ -39,7 +40,10 @@ private fun DetailsScreen(
       .fillMaxWidth(),
     contentAlignment = Alignment.Center,
   ) {
-    Text(pokemon.nameField)
+    Column {
+      Text(pokemon.nameField)
+      Text(pokemon.url)
+    }
   }
 }
 
