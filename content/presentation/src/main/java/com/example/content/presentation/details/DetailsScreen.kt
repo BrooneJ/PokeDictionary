@@ -8,23 +8,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.core.model.Pokemon
-import com.example.core.presentation.designsystem.JetpackApplicationTheme
+import com.example.core.model.PokemonDetails
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun DetailsScreenRoot(
   viewModel: DetailsViewModel = koinViewModel()
 ) {
-  val pokemon = viewModel.pokemon
+  val pokemon by viewModel.pokemon.collectAsStateWithLifecycle()
+  val pokemonDetails by viewModel.pokemonDetails.collectAsStateWithLifecycle()
   val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
   DetailsScreen(
     state = viewModel.state,
     uiState = uiState,
-    pokemon = pokemon
+    pokemon = pokemon,
+    pokemonDetails = pokemonDetails
   )
 }
 
@@ -32,7 +33,8 @@ fun DetailsScreenRoot(
 private fun DetailsScreen(
   state: DetailsState,
   uiState: DetailsUiState,
-  pokemon: Pokemon
+  pokemon: Pokemon?,
+  pokemonDetails: PokemonDetails?
 ) {
 
   Box(
@@ -41,24 +43,30 @@ private fun DetailsScreen(
     contentAlignment = Alignment.Center,
   ) {
     Column {
-      Text(pokemon.nameField)
-      Text(pokemon.url)
+      Text(pokemon?.nameField.orEmpty())
+      Text(pokemonDetails?.weight.toString())
     }
   }
 }
 
-@Preview
 @Composable
-private fun DetailsScreenPreview() {
-  JetpackApplicationTheme {
-    DetailsScreen(
-      state = DetailsState(),
-      uiState = DetailsUiState.Loading,
-      pokemon = Pokemon(
-        page = 0,
-        nameField = "Pikachu",
-        url = "https://pokeapi.co/api/v2/pokemon/1/"
-      )
-    )
-  }
+private fun DetailsHeader(
+  pokemon: Pokemon
+) {
 }
+
+//@Preview
+//@Composable
+//private fun DetailsScreenPreview() {
+//  JetpackApplicationTheme {
+//    DetailsScreen(
+//      state = DetailsState(),
+//      uiState = DetailsUiState.Loading,
+//      pokemon = Pokemon(
+//        page = 0,
+//        nameField = "Pikachu",
+//        url = "https://pokeapi.co/api/v2/pokemon/1/"
+//      )
+//    )
+//  }
+//}
