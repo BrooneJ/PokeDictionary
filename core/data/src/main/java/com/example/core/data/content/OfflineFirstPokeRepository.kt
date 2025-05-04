@@ -10,7 +10,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import timber.log.Timber
 
 class OfflineFirstPokeRepository(
   private val remotePokeDataSource: RemotePokemonDataSource,
@@ -24,7 +23,6 @@ class OfflineFirstPokeRepository(
       }
 
       is Result.Success -> {
-        Timber.d("Pokemon list from local data source: ${pokemonList.data}")
         if (pokemonList.data.isEmpty()) {
           when (val remotePokemonListData = remotePokeDataSource.getPokemonList(page)) {
             is Result.Error -> emit(emptyList())
@@ -48,20 +46,33 @@ class OfflineFirstPokeRepository(
   }.flowOn(Dispatchers.IO)
 
   override fun fetchPokemonDetails(name: String): Flow<PokemonDetails?> = flow {
-    when (localPokemonDataSource.fetchPokemonDetails(name)) {
-      is Result.Error -> (emit(null))
+    when (val roomPokemonDetails = localPokemonDataSource.fetchPokemonDetails(name)) {
+      is Result.Error -> {
+        (emit(null))
+      }
+
       is Result.Success -> {
-        when (val remotePokemonDetails = remotePokeDataSource.getPokemonByName(name)) {
-          is Result.Error -> emit(null)
-          is Result.Success -> {
-            localPokemonDataSource.insertPokemonDetails(remotePokemonDetails.data)
-            when (val localPokemonDetails = localPokemonDataSource.fetchPokemonDetails(name)) {
-              is Result.Error -> emit(null)
-              is Result.Success -> {
-                emit(localPokemonDetails.data)
+        if (roomPokemonDetails.data.name == "") {
+          when (val remotePokemonDetails = remotePokeDataSource.getPokemonByName(name)) {
+            is Result.Error -> {
+              emit(null)
+            }
+
+            is Result.Success -> {
+              localPokemonDataSource.insertPokemonDetails(remotePokemonDetails.data)
+              when (val localPokemonDetails = localPokemonDataSource.fetchPokemonDetails(name)) {
+                is Result.Error -> {
+                  emit(null)
+                }
+
+                is Result.Success -> {
+                  emit(localPokemonDetails.data)
+                }
               }
             }
           }
+        } else {
+          emit(roomPokemonDetails.data)
         }
       }
     }

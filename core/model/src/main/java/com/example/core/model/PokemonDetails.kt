@@ -1,15 +1,19 @@
 package com.example.core.model
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import kotlin.random.Random
 
+@Serializable
 data class PokemonDetails(
+  @SerialName(value = "id")
   val id: Int,
-  val name: String,
-  val height: Int,
-  val weight: Int,
-  val experience: Int,
-  val types: List<TypeResponse>,
-  val stats: List<StatsResponse>,
+  @SerialName(value = "name") val name: String,
+  @SerialName(value = "height") val height: Int,
+  @SerialName(value = "weight") val weight: Int,
+  @SerialName(value = "base_experience") val experience: Int,
+  @SerialName(value = "types") val types: List<TypeResponse>,
+  @SerialName(value = "stats") val stats: List<StatsResponse>,
   val exp: Int = Random.nextInt(MAX_EXP)
 ) {
   val hp: Int by lazy {
@@ -34,23 +38,27 @@ data class PokemonDetails(
   fun getSpeedString(): String = " $speed/$MAX_SPEED"
   fun getExpString(): String = " $exp/$MAX_EXP"
 
+  @Serializable
   data class TypeResponse(
-    val slot: Int,
-    val type: Type
+    @SerialName(value = "slot") val slot: Int,
+    @SerialName(value = "type") val type: Type
   )
 
+  @Serializable
   data class StatsResponse(
-    val baseStat: Int,
-    val effort: Int,
-    val stat: Stat
+    @SerialName(value = "base_stat") val baseStat: Int,
+    @SerialName(value = "effort") val effort: Int,
+    @SerialName(value = "stat") val stat: Stat
   )
 
+  @Serializable
   data class Stat(
-    val name: String
+    @SerialName(value = "name") val name: String
   )
 
+  @Serializable
   data class Type(
-    val name: String
+    @SerialName(value = "name") val name: String
   )
 
   companion object {

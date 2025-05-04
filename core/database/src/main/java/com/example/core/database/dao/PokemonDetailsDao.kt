@@ -13,5 +13,5 @@ interface PokemonDetailsDao {
   suspend fun insertPokemonDetails(pokemonDetails: PokemonDetailsEntity)
 
   @Query("SELECT * FROM PokemonDetailsEntity WHERE name = :name_")
-  suspend fun getPokemonDetails(name_: String): PokemonDetailsEntity
+  suspend fun getPokemonDetails(name_: String): PokemonDetailsEntity?
 }

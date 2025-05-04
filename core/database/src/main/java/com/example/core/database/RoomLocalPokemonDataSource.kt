@@ -38,12 +38,25 @@ class RoomLocalPokemonDataSource(
   }
 
   override suspend fun insertPokemonDetails(pokemonDetails: PokemonDetails) {
-    return pokemonDetailsDao.insertPokemonDetails(pokemonDetails.asEntity())
+    pokemonDetailsDao.insertPokemonDetails(pokemonDetails.asEntity())
   }
 
   override suspend fun fetchPokemonDetails(name: String): Result<PokemonDetails, DataError.Local> {
     return try {
       val pokemonDetails = pokemonDetailsDao.getPokemonDetails(name)
+      if (pokemonDetails == null) {
+        return Result.Success(
+          PokemonDetails(
+            id = 0,
+            name = "",
+            height = 0,
+            weight = 0,
+            experience = 0,
+            types = emptyList(),
+            stats = emptyList()
+          )
+        )
+      }
       Result.Success(pokemonDetails.asDomain())
     } catch (e: Exception) {
       Result.Error(DataError.Local.UNKNOWN)

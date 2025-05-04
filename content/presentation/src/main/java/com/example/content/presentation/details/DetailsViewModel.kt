@@ -29,7 +29,7 @@ class DetailsViewModel(
 
   val pokemon = savedStateHandle.getStateFlow<Pokemon?>("pokemon", null)
   val pokemonDetails = pokemon.filterNotNull().flatMapLatest { pokemon ->
-    repository.fetchPokemonDetails(pokemon.name.replaceFirstChar { it.lowercase() })
+    repository.fetchPokemonDetails(pokemon.nameField.replaceFirstChar { it.lowercase() })
       .onStart { uiState.value = DetailsUiState.Loading }
       .onCompletion { uiState.value = DetailsUiState.Idle }
       .catch { exception -> uiState.value = DetailsUiState.Error(exception.message) }
