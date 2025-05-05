@@ -3,6 +3,7 @@ package com.example.content.presentation.home
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
@@ -51,7 +52,11 @@ private fun HomeScreen(
 
   val paletteMap = remember { mutableStateMapOf<String, Palette>() }
 
-  Box(modifier = Modifier.fillMaxSize()) {
+  Box(
+    modifier = Modifier
+      .fillMaxSize()
+      .statusBarsPadding()
+  ) {
     val threshold = 8
     LazyVerticalGrid(
       columns = GridCells.Fixed(2),
