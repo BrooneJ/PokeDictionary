@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
+import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.content.presentation.details.DetailsScreenRoot
 import com.example.content.presentation.home.HomeScreenRoot
@@ -39,7 +39,11 @@ private fun NavGraphBuilder.homeGraph(navController: NavHostController) {
     ) { backStackEntry ->
       val pokemon = backStackEntry.toRoute<PokeDicScreen.Details>().pokemon
       backStackEntry.savedStateHandle.set("pokemon", pokemon)
-      DetailsScreenRoot()
+      DetailsScreenRoot(
+        onBackScreen = {
+          navController.popBackStack()
+        }
+      )
     }
   }
 }
