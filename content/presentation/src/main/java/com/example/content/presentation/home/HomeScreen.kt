@@ -9,18 +9,17 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.content.presentation.home.component.PokemonCard
 import com.example.content.presentation.home.component.paletteBackgroundColor
+import com.example.content.presentation.home.libs.rememberPaletteState
 import com.example.content.presentation.home.mapper.toPokemonUi
 import com.example.core.model.Pokemon
 import com.example.core.presentation.designsystem.JetpackApplicationTheme
-import com.kmpalette.palette.graphics.Palette
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -49,9 +48,7 @@ private fun HomeScreen(
   uiState: HomeUiState,
   onAction: (HomeAction) -> Unit,
 ) {
-
-  val paletteMap = remember { mutableStateMapOf<String, Palette>() }
-
+  
   Box(
     modifier = Modifier
       .fillMaxSize()
@@ -70,7 +67,7 @@ private fun HomeScreen(
           onAction(HomeAction.FetchPokemons)
         }
 
-        val palette = paletteMap[pokemon.imageUrl]
+        var palette by rememberPaletteState()
         val backgroundColor by palette.paletteBackgroundColor()
 
         PokemonCard(
@@ -78,7 +75,7 @@ private fun HomeScreen(
           pokemonUi = pokemon.toPokemonUi(),
           modifier = Modifier,
           onPaletteLoaded = { newPalette ->
-            paletteMap[pokemon.imageUrl] = newPalette
+            palette = newPalette
           },
           onClick = { onAction(HomeAction.OnPokemonClick(pokemon)) }
         )
