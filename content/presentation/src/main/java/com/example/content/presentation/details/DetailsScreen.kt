@@ -41,6 +41,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.example.content.presentation.details.component.paletteBackgroundBrush
+import com.example.content.presentation.details.libs.PokedexText
 import com.example.content.presentation.details.libs.rememberPaletteState
 import com.example.content.presentation.home.libs.ConstraintsSizeResolver
 import com.example.content.presentation.home.libs.requestOfWithSizeResolver
@@ -145,19 +146,16 @@ private fun DetailsHeader(
         fontSize = 18.sp
       )
     }
-    Text(
+    PokedexText(
       modifier = Modifier
         .align(Alignment.TopEnd)
         .padding(12.dp)
         .statusBarsPadding(),
-      text = if (!LocalInspectionMode.current) {
-        "#${pokemonDetails?.id.toString()}"
-      } else {
-        "#001"
-      },
+      text = pokemonDetails?.getIdString().orEmpty(),
+      previewText = "#001",
       color = PokedexColors.defaultDarkColors().absoluteWhite,
       fontWeight = FontWeight.Bold,
-      fontSize = 18.sp
+      fontSize = 18.sp,
     )
 
     PokemonImage(
