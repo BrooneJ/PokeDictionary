@@ -1,4 +1,4 @@
-package com.example.content.presentation.home.libs
+package com.example.content.presentation.libs
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
