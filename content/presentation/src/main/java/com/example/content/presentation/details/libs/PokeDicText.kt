@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun PokedexText(
+fun PokedicText(
   text: String,
   previewText: String = text,
   modifier: Modifier = Modifier,
@@ -67,7 +67,7 @@ fun PokedexText(
 @Preview
 @Composable
 private fun PokedexTextPreview() {
-  PokedexText(
+  PokedicText(
     text = "pokemon",
     previewText = "preview text",
     fontSize = 30.sp,
