@@ -19,7 +19,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.runtime.AbstractApplier
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -31,9 +30,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,7 +40,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.example.content.presentation.details.component.paletteBackgroundBrush
-import com.example.content.presentation.details.libs.PokedexText
+import com.example.content.presentation.details.libs.PokeDicText
 import com.example.content.presentation.details.libs.rememberPaletteState
 import com.example.content.presentation.home.libs.ConstraintsSizeResolver
 import com.example.content.presentation.home.libs.requestOfWithSizeResolver
@@ -134,26 +133,26 @@ private fun DetailsHeader(
           .padding(end = 6.dp)
           .clickable { onAction(DetailsAction.OnBackClick) },
         painter = painterResource(id = com.example.core.presentation.designsystem.R.drawable.arrow_left),
-        tint = PokedexColors.defaultDarkColors().absoluteWhite,
+        tint = PokedexColors.defaultLightColors().black,
         contentDescription = null
       )
 
       Text(
         modifier = Modifier.padding(horizontal = 10.dp),
         text = pokemon?.name.orEmpty(),
-        color = PokedexColors.defaultDarkColors().absoluteWhite,
+        color = PokedexColors.defaultLightColors().black,
         fontWeight = FontWeight.Bold,
         fontSize = 18.sp
       )
     }
-    PokedexText(
+    PokeDicText(
       modifier = Modifier
         .align(Alignment.TopEnd)
         .padding(12.dp)
         .statusBarsPadding(),
       text = pokemonDetails?.getIdString().orEmpty(),
       previewText = "#001",
-      color = PokedexColors.defaultDarkColors().absoluteWhite,
+      color = PokedexColors.defaultLightColors().black,
       fontWeight = FontWeight.Bold,
       fontSize = 18.sp,
     )
@@ -168,7 +167,20 @@ private fun DetailsHeader(
         onPaletteLoaded(palette)
       }
     )
+
   }
+
+  PokeDicText(
+    modifier = Modifier
+      .padding(top = 24.dp)
+      .fillMaxWidth(),
+    text = pokemon?.name.orEmpty(),
+    previewText = "Pikachu",
+    color = PokedexColors.defaultLightColors().black,
+    fontWeight = FontWeight.Bold,
+    textAlign = TextAlign.Center,
+    fontSize = 36.sp
+  )
 }
 
 @Composable
