@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.content.presentation.details.component.PokeDicCircularProgress
 import com.example.content.presentation.details.component.PokemonDetailItem
 import com.example.content.presentation.details.component.paletteBackgroundBrush
 import com.example.content.presentation.details.libs.PokeDicText
@@ -99,7 +100,7 @@ private fun DetailsScreen(
       DetailsInfo(pokemonDetails = pokemonDetails)
     } else {
       Box(modifier = Modifier.fillMaxSize()) {
-        CircularProgressIndicator()
+        PokeDicCircularProgress()
       }
     }
   }
