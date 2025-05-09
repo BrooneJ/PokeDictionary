@@ -94,13 +94,13 @@ private fun DetailsScreen(
       onPaletteLoaded = { palette = it },
       backgroundBrush = backgroundBrush
     )
-  }
 
-  if (uiState == DetailsUiState.Idle && pokemonDetails != null) {
-    DetailsInfo(pokemonDetails = pokemonDetails)
-  } else {
-    Box(modifier = Modifier.fillMaxSize()) {
-      CircularProgressIndicator()
+    if (uiState == DetailsUiState.Idle && pokemonDetails != null) {
+      DetailsInfo(pokemonDetails = pokemonDetails)
+    } else {
+      Box(modifier = Modifier.fillMaxSize()) {
+        CircularProgressIndicator()
+      }
     }
   }
 }
