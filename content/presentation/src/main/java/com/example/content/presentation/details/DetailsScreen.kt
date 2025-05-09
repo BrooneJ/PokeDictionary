@@ -1,10 +1,13 @@
 package com.example.content.presentation.details
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,6 +16,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,12 +27,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.content.presentation.details.component.PokemonDetailItem
 import com.example.content.presentation.details.component.paletteBackgroundBrush
 import com.example.content.presentation.details.libs.PokeDicText
 import com.example.content.presentation.details.libs.rememberPaletteState
@@ -36,7 +42,9 @@ import com.example.content.presentation.libs.PokemonImage
 import com.example.core.model.Pokemon
 import com.example.core.model.PokemonDetails
 import com.example.core.presentation.designsystem.JetpackApplicationTheme
+import com.example.core.presentation.designsystem.PokeDicTheme
 import com.example.core.presentation.designsystem.PokedexColors
+import com.example.core.presentation.designsystem.utils.getPokemonTypeColor
 import com.kmpalette.palette.graphics.Palette
 import org.koin.androidx.compose.koinViewModel
 
@@ -86,6 +94,14 @@ private fun DetailsScreen(
       onPaletteLoaded = { palette = it },
       backgroundBrush = backgroundBrush
     )
+  }
+
+  if (uiState == DetailsUiState.Idle && pokemonDetails != null) {
+    DetailsInfo(pokemonDetails = pokemonDetails)
+  } else {
+    Box(modifier = Modifier.fillMaxSize()) {
+      CircularProgressIndicator()
+    }
   }
 }
 
@@ -169,6 +185,69 @@ private fun DetailsHeader(
     textAlign = TextAlign.Center,
     fontSize = 36.sp
   )
+}
+
+@Composable
+private fun DetailsInfo(pokemonDetails: PokemonDetails) {
+  Row(
+    modifier = Modifier
+      .fillMaxWidth()
+      .padding(top = 14.dp),
+    horizontalArrangement = Arrangement.spacedBy(22.dp, Alignment.CenterHorizontally)
+  ) {
+    pokemonDetails.types.forEach { typeInfo ->
+      Text(
+        modifier = Modifier
+          .background(
+            color = getPokemonTypeColor(type = typeInfo.type.name),
+            shape = RoundedCornerShape(64.dp)
+          )
+          .padding(horizontal = 40.dp, vertical = 4.dp),
+        text = typeInfo.type.name,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Center,
+        color = PokeDicTheme.colors.absoluteWhite,
+        maxLines = 1,
+        fontSize = 16.sp
+      )
+    }
+  }
+
+  Row(
+    modifier = Modifier
+      .fillMaxWidth()
+      .padding(top = 24.dp),
+    horizontalArrangement = Arrangement.SpaceEvenly
+  ) {
+    PokemonDetailItem(
+      title = pokemonDetails.getWeightString(),
+      content = stringResource(id = com.example.content.presentation.R.string.weight),
+    )
+
+    PokemonDetailItem(
+      title = pokemonDetails.getHeightString(),
+      content = stringResource(id = com.example.content.presentation.R.string.height),
+    )
+  }
+}
+
+@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun DetailInfoPreview() {
+  JetpackApplicationTheme {
+    DetailsInfo(
+      pokemonDetails = PokemonDetails(
+        id = 1,
+        name = "Pikachu",
+        height = 4,
+        weight = 60,
+        experience = 11,
+        types = emptyList(),
+        stats = emptyList(),
+      )
+    )
+  }
 }
 
 @Preview(showBackground = true)

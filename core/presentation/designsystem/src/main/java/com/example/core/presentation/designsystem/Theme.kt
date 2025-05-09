@@ -10,6 +10,8 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -229,3 +231,20 @@ fun JetpackApplicationTheme(
 
 @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
 fun supportsDynamicTheming() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+
+private val LocalColors = compositionLocalOf<PokedexColors> {
+  error("No colors provided! Make sure to wrap all usages of Pokedex components in PokedexTheme.")
+}
+
+object PokeDicTheme {
+
+  val colors: PokedexColors
+  @Composable
+  @ReadOnlyComposable
+  get() = LocalColors.current
+
+  val background: BackgroundTheme
+  @Composable
+  @ReadOnlyComposable
+  get() = LocalBackgroundTheme.current
+}
