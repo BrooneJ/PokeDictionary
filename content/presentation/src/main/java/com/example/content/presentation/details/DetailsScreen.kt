@@ -84,7 +84,7 @@ private fun DetailsScreen(
 
   Column(
     modifier = Modifier
-      .fillMaxWidth()
+      .fillMaxSize()
       .verticalScroll(rememberScrollState()),
   ) {
     DetailsHeader(
