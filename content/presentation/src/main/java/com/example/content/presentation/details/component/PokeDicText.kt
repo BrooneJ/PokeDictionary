@@ -1,4 +1,4 @@
-package com.example.content.presentation.details.libs
+package com.example.content.presentation.details.component
 
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text

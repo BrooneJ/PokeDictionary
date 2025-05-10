@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,7 +36,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.content.presentation.details.component.PokeDicCircularProgress
 import com.example.content.presentation.details.component.PokemonDetailItem
 import com.example.content.presentation.details.component.paletteBackgroundBrush
-import com.example.content.presentation.details.libs.PokeDicText
+import com.example.content.presentation.details.component.PokeDicText
 import com.example.content.presentation.details.libs.rememberPaletteState
 import com.example.content.presentation.libs.PokemonImage
 import com.example.core.model.Pokemon
