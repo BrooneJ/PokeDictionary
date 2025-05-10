@@ -12,6 +12,7 @@ dependencies {
   implementation(libs.androidx.activity.compose)
   implementation(libs.timber)
   implementation(libs.kmpalette.core)
+  implementation(libs.kotlinx.immutable.collection)
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
