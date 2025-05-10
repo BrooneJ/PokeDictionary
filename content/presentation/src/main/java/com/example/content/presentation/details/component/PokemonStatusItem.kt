@@ -2,6 +2,7 @@ package com.example.content.presentation.details.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Text
@@ -32,6 +33,13 @@ fun PokemonStatusItem(
       fontSize = 12.sp,
     )
 
-
+    PokedicProgressBar(
+      modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 16.dp),
+      progress = pokeDicStatus.progress,
+      color = pokeDicStatus.color,
+      label = pokeDicStatus.label
+    )
   }
 }

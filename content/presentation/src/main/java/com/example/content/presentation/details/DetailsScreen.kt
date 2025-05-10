@@ -319,10 +319,7 @@ private fun PokedicDetailsStatusPreview() {
         height = 4,
         weight = 60,
         experience = 11,
-        types = listOf(
-          PokemonDetails.TypeResponse(slot = 0, type = PokemonDetails.Type("grass")),
-          PokemonDetails.TypeResponse(slot = 0, type = PokemonDetails.Type("poison")),
-        ),
+        types = emptyList(),
         stats = listOf(
           PokemonDetails.StatsResponse(baseStat = 20, effort = 0, stat = PokemonDetails.Stat("hp")),
           PokemonDetails.StatsResponse(baseStat = 40, effort = 0, stat = PokemonDetails.Stat("attack")),
