@@ -34,10 +34,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.content.presentation.details.component.PokeDicCircularProgress
-import com.example.content.presentation.details.component.PokemonDetailItem
-import com.example.content.presentation.details.component.paletteBackgroundBrush
 import com.example.content.presentation.details.component.PokeDicText
+import com.example.content.presentation.details.component.PokemonDetailItem
+import com.example.content.presentation.details.component.PokemonStatusItem
+import com.example.content.presentation.details.component.paletteBackgroundBrush
 import com.example.content.presentation.details.libs.rememberPaletteState
+import com.example.content.presentation.details.libs.toPokemonStatusList
 import com.example.content.presentation.libs.PokemonImage
 import com.example.core.model.Pokemon
 import com.example.core.model.PokemonDetails
@@ -97,6 +99,7 @@ private fun DetailsScreen(
 
     if (uiState == DetailsUiState.Idle && pokemonDetails != null) {
       DetailsInfo(pokemonDetails = pokemonDetails)
+      DetailsStatus(pokemonDetails = pokemonDetails)
     } else {
       Box(modifier = Modifier.fillMaxSize()) {
         PokeDicCircularProgress()
@@ -231,6 +234,31 @@ private fun DetailsInfo(pokemonDetails: PokemonDetails) {
   }
 }
 
+@Composable
+private fun DetailsStatus(
+  pokemonDetails: PokemonDetails,
+) {
+  Text(
+    modifier = Modifier
+      .fillMaxWidth()
+      .padding(top = 22.dp, bottom = 16.dp),
+    text = stringResource(id = com.example.content.presentation.R.string.base_stats),
+    textAlign = TextAlign.Center,
+    color = PokeDicTheme.colors.black,
+    fontWeight = FontWeight.Bold,
+    fontSize = 21.sp,
+  )
+
+  Column {
+    pokemonDetails.toPokemonStatusList().forEach { pokemonStatus ->
+      PokemonStatusItem(
+        modifier = Modifier.padding(bottom = 12.dp),
+        pokeDicStatus = pokemonStatus
+      )
+    }
+  }
+}
+
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
@@ -268,10 +296,40 @@ private fun DetailsScreenPreview() {
         height = 4,
         weight = 60,
         experience = 11,
-        types = emptyList(),
+        types = listOf(
+          PokemonDetails.TypeResponse(slot = 0, type = PokemonDetails.Type("grass")),
+          PokemonDetails.TypeResponse(slot = 0, type = PokemonDetails.Type("poison")),
+        ),
         stats = emptyList(),
       ),
       onAction = {}
+    )
+  }
+}
+
+@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun PokedicDetailsStatusPreview() {
+  JetpackApplicationTheme {
+    DetailsStatus(
+      pokemonDetails = PokemonDetails(
+        id = 1,
+        name = "Pikachu",
+        height = 4,
+        weight = 60,
+        experience = 11,
+        types = listOf(
+          PokemonDetails.TypeResponse(slot = 0, type = PokemonDetails.Type("grass")),
+          PokemonDetails.TypeResponse(slot = 0, type = PokemonDetails.Type("poison")),
+        ),
+        stats = listOf(
+          PokemonDetails.StatsResponse(baseStat = 20, effort = 0, stat = PokemonDetails.Stat("hp")),
+          PokemonDetails.StatsResponse(baseStat = 40, effort = 0, stat = PokemonDetails.Stat("attack")),
+          PokemonDetails.StatsResponse(baseStat = 60, effort = 0, stat = PokemonDetails.Stat("defense")),
+          PokemonDetails.StatsResponse(baseStat = 80, effort = 0, stat = PokemonDetails.Stat("attack")),
+        ),
+      )
     )
   }
 }
