@@ -4,17 +4,22 @@
     <bytecodeTargetLevel target="11">
       <module name="Application.app" target="21" />
       <module name="Application.auth.data" target="21" />
+      <module name="Application.auth.domain" target="21" />
       <module name="Application.auth.presentation" target="21" />
       <module name="Application.content.data" target="21" />
       <module name="Application.content.network" target="21" />
       <module name="Application.content.presentation" target="21" />
       <module name="Application.core.data" target="21" />
       <module name="Application.core.database" target="21" />
+      <module name="Application.core.domain" target="21" />
+      <module name="Application.core.model" target="21" />
+      <module name="Application.core.navigation" target="21" />
       <module name="Application.core.presentation.designsystem" target="21" />
       <module name="Application.core.presentation.ui" target="21" />
       <module name="build-logic.convention" target="21" />
       <module name="build-logic.convention.main" target="21" />
       <module name="build-logic.convention.test" target="21" />
+      <module name="PokeDictionary.Application.content.presentation" target="21" />
     </bytecodeTargetLevel>
   </component>
 </project>

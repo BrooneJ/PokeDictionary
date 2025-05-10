@@ -1,6 +1,7 @@
 plugins {
   alias(libs.plugins.application.android.library)
   alias(libs.plugins.application.android.room)
+  alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -10,6 +11,7 @@ android {
 dependencies {
   implementation(libs.org.mongodb.bson)
   implementation(libs.bundles.koin)
+  implementation(libs.kotlinx.serialization.json)
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)

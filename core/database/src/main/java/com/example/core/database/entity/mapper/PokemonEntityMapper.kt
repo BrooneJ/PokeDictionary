@@ -1,7 +1,7 @@
 package com.example.core.database.entity.mapper
 
 import com.example.core.database.entity.PokemonEntity
-import com.example.core.domain.content.Pokemon
+import com.example.core.model.Pokemon
 
 object PokemonEntityMapper : EntityMapper<List<Pokemon>, List<PokemonEntity>> {
 

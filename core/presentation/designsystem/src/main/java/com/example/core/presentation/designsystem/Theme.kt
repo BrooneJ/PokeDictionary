@@ -10,6 +10,8 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -159,6 +161,10 @@ val LightAndroidBackgroundTheme = BackgroundTheme(color = DarkGreenGray95)
  */
 val DarkAndroidBackgroundTheme = BackgroundTheme(color = Color.Black)
 
+private val LocalColors = compositionLocalOf<PokedexColors> {
+  error("No colors provided! Make sure to wrap all usages of Pokedex components in PokedexTheme.")
+}
+
 /**
  * Now in Android theme.
  *
@@ -173,13 +179,18 @@ fun JetpackApplicationTheme(
   darkTheme: Boolean = isSystemInDarkTheme(),
   androidTheme: Boolean = false,
   disableDynamicTheming: Boolean = true,
+  colors: PokedexColors = if (darkTheme) {
+    PokedexColors.defaultDarkColors()
+  } else {
+    PokedexColors.defaultLightColors()
+  },
   content: @Composable () -> Unit
 ) {
   // color scheme
   val colorScheme = when {
     androidTheme -> if (darkTheme) DarkAndroidColorScheme else LightAndroidColorScheme
     !disableDynamicTheming && supportsDynamicTheming() -> {
-      val context = LocalContext.current
+      LocalContext.current
       if (darkTheme) DarkDefaultColorScheme else LightDefaultColorScheme
     }
 
@@ -218,6 +229,7 @@ fun JetpackApplicationTheme(
     LocalGradientColors provides gradientColors,
     LocalBackgroundTheme provides backgroundTheme,
     LocalTintTheme provides tintTheme,
+    LocalColors provides colors
   ) {
     MaterialTheme(
       colorScheme = colorScheme,
@@ -229,3 +241,16 @@ fun JetpackApplicationTheme(
 
 @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
 fun supportsDynamicTheming() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+
+object PokeDicTheme {
+
+  val colors: PokedexColors
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalColors.current
+
+  val background: BackgroundTheme
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalBackgroundTheme.current
+}

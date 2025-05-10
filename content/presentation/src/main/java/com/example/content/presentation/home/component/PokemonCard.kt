@@ -1,33 +1,21 @@
 package com.example.content.presentation.home.component
 
-import android.graphics.drawable.BitmapDrawable
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImagePainter
-import coil.compose.rememberAsyncImagePainter
-import com.example.content.presentation.home.libs.ConstraintsSizeResolver
-import com.example.content.presentation.home.libs.requestOfWithSizeResolver
 import com.example.content.presentation.home.model.PokemonUi
+import com.example.content.presentation.libs.PokemonImage
 import com.example.core.presentation.designsystem.JetpackApplicationTheme
 import com.kmpalette.palette.graphics.Palette
 
@@ -37,10 +25,12 @@ fun PokemonCard(
   pokemonUi: PokemonUi,
   modifier: Modifier = Modifier,
   onPaletteLoaded: (Palette) -> Unit = {},
+  onClick: () -> Unit = {},
 ) {
   Card(
     modifier = modifier
-      .padding(4.dp),
+      .padding(4.dp)
+      .clickable { onClick() },
     shape = RoundedCornerShape(15.dp),
     colors = CardColors(
       containerColor = backgroundColor,
@@ -64,75 +54,6 @@ fun PokemonCard(
       )
     }
   }
-}
-
-@Composable
-private fun PokemonImage(
-  imageUrl: String,
-  modifier: Modifier = Modifier,
-  onPaletteLoaded: (Palette) -> Unit = {},
-) {
-
-  val request = requestOfWithSizeResolver(
-    model = imageUrl,
-    contentScale = ContentScale.Fit
-  )
-
-  val sizeResolver = request.sizeResolver
-
-  val painter = rememberAsyncImagePainter(model = request)
-
-  val state = painter.state
-  if (state is AsyncImagePainter.State.Success) {
-    val drawable = state.result.drawable
-    if (drawable is BitmapDrawable) {
-      val bitmap = drawable.bitmap
-      val imageBitmap = bitmap.asImageBitmap()
-      LaunchedEffect(imageBitmap) {
-        val palette = Palette.from(imageBitmap).generate()
-        onPaletteLoaded(palette)
-      }
-    }
-  }
-
-  Layout(
-    content = {
-      when (painter.state) {
-        is AsyncImagePainter.State.Error -> {
-          Text("Error occurred")
-        }
-
-        is AsyncImagePainter.State.Loading -> {
-          Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxWidth()
-          ) {
-            CircularProgressIndicator()
-          }
-        }
-
-        is AsyncImagePainter.State.Success -> {
-          Image(
-            painter = painter,
-            contentDescription = null,
-          )
-        }
-
-        is AsyncImagePainter.State.Empty -> Unit
-      }
-    },
-    modifier = if (sizeResolver is ConstraintsSizeResolver) {
-      modifier.then(sizeResolver)
-    } else {
-      modifier
-    },
-    measurePolicy = { measurable, constraints ->
-      val placeable = measurable.first().measure(constraints)
-      layout(placeable.width, placeable.height) {
-        placeable.place(0, 0)
-      }
-    }
-  )
 }
 
 @Preview

@@ -6,7 +6,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
+import com.example.content.presentation.details.DetailsScreenRoot
 import com.example.content.presentation.home.HomeScreenRoot
+import com.example.core.navigation.PokeDicScreen
 
 @Composable
 fun NavigationRoot(
@@ -14,45 +17,33 @@ fun NavigationRoot(
 ) {
   NavHost(
     navController = navController,
-    startDestination = "home"
+    startDestination = PokeDicScreen.Home
   ) {
     homeGraph(navController)
   }
 }
 
 private fun NavGraphBuilder.homeGraph(navController: NavHostController) {
-  navigation(
-    startDestination = "base",
-    route = "home"
+  navigation<PokeDicScreen.Home>(
+    startDestination = PokeDicScreen.Base,
   ) {
-    composable(route = "base") {
-      HomeScreenRoot()
+    composable<PokeDicScreen.Base> {
+      HomeScreenRoot(
+        onPokemonClick = { pokemon ->
+          navController.navigate(PokeDicScreen.Details(pokemon))
+        }
+      )
     }
-//    composable(route = "register") {
-//      RegisterScreenRoot(
-//        onSignInClick = {
-//          navController.navigate("login") {
-//            popUpTo("register") {
-//              inclusive = true
-//              saveState = true
-//            }
-//            restoreState = true
-//          }
-//        },
-//        onSuccessfulRegistration = {
-//          navController.navigate("login")
-//        }
-//      )
-//    }
-//    composable(route = "login") {
-//      LoginScreenRoot(
-//        onSignUpClick = {
-//          navController.navigate("register")
-//        },
-//        onSignInClick = {
-//          navController.navigate("run")
-//        }
-//      )
-//    }
+    composable<PokeDicScreen.Details>(
+      typeMap = PokeDicScreen.Details.typeMap
+    ) { backStackEntry ->
+      val pokemon = backStackEntry.toRoute<PokeDicScreen.Details>().pokemon
+      backStackEntry.savedStateHandle.set("pokemon", pokemon)
+      DetailsScreenRoot(
+        onBackScreen = {
+          navController.popBackStack()
+        }
+      )
+    }
   }
 }

@@ -2,6 +2,7 @@ plugins {
   alias(libs.plugins.application.android.application.compose)
   alias(libs.plugins.application.jvm.ktor)
   alias(libs.plugins.kotlin.compose)
+  alias(libs.plugins.kotlin.parcelize)
   alias(libs.plugins.mapsplatform.secrets.plugin)
 }
 
@@ -60,11 +61,9 @@ dependencies {
   implementation(projects.core.domain)
   implementation(projects.core.database)
   implementation(projects.core.data)
-
-  implementation(projects.auth.presentation)
-  implementation(projects.auth.domain)
-  implementation(projects.auth.data)
-
+  implementation(projects.core.navigation)
+  implementation(projects.core.model)
+  
   implementation(projects.content.presentation)
   implementation(projects.content.domain)
   implementation(projects.content.network)

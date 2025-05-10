@@ -1,11 +1,14 @@
 package com.example.content.network
 
+import com.example.content.network.mappers.toPokemonDetails
+import com.example.content.network.mappers.toPokemonList
 import com.example.core.data.networking.get
-import com.example.core.domain.content.Pokemon
 import com.example.core.domain.content.RemotePokemonDataSource
 import com.example.core.domain.util.DataError
 import com.example.core.domain.util.Result
 import com.example.core.domain.util.map
+import com.example.core.model.Pokemon
+import com.example.core.model.PokemonDetails
 import io.ktor.client.HttpClient
 
 class KtorRemotePokemonDataSource(
@@ -23,8 +26,12 @@ class KtorRemotePokemonDataSource(
     return result.map { it.toPokemonList() }
   }
 
-  override suspend fun getPokemonById(id: Int): Result<Pokemon, DataError.Network> {
-    TODO("Not yet implemented")
+  override suspend fun getPokemonByName(name: String): Result<PokemonDetails, DataError.Network> {
+    val result = httpClient.get<PokemonDetailsDto>(
+      route = "/pokemon/$name",
+    )
+
+    return result.map { it.toPokemonDetails() }
   }
 
   companion object {

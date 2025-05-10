@@ -16,10 +16,12 @@
 
 package com.example.core.presentation.designsystem
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 /**
  * A class to model background color and tonal elevation values for Now in Android.
@@ -28,7 +30,24 @@ import androidx.compose.ui.unit.Dp
 data class BackgroundTheme(
   val color: Color = Color.Unspecified,
   val tonalElevation: Dp = Dp.Unspecified,
-)
+) {
+  companion object {
+    @Composable
+    fun defaultBackground(darkTheme: Boolean): BackgroundTheme {
+      return if (darkTheme) {
+        BackgroundTheme(
+          color = Color(0xFF121212),
+          tonalElevation = 0.dp,
+        )
+      } else {
+        BackgroundTheme(
+          color = Color(0xFFFFFFFF),
+          tonalElevation = 0.dp,
+        )
+      }
+    }
+  }
+}
 
 /**
  * A composition local for [BackgroundTheme].

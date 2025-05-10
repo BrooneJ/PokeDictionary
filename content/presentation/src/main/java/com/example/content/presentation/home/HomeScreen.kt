@@ -3,28 +3,29 @@ package com.example.content.presentation.home
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.content.presentation.home.component.PokemonCard
 import com.example.content.presentation.home.component.paletteBackgroundColor
+import com.example.content.presentation.home.libs.rememberPaletteState
 import com.example.content.presentation.home.mapper.toPokemonUi
-import com.example.core.domain.content.Pokemon
+import com.example.core.model.Pokemon
 import com.example.core.presentation.designsystem.JetpackApplicationTheme
-import com.kmpalette.palette.graphics.Palette
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreenRoot(
-  viewModel: HomeViewModel = koinViewModel()
+  viewModel: HomeViewModel = koinViewModel(),
+  onPokemonClick: (Pokemon) -> Unit
 ) {
   val uiState by viewModel.uiState.collectAsStateWithLifecycle()
   val pokemonList by viewModel.pokemonList.collectAsStateWithLifecycle()
@@ -32,7 +33,12 @@ fun HomeScreenRoot(
   HomeScreen(
     pokemonList = pokemonList,
     uiState = uiState,
-    onAction = viewModel::onAction
+    onAction = { action ->
+      when (action) {
+        HomeAction.FetchPokemons -> viewModel.onAction(action)
+        is HomeAction.OnPokemonClick -> onPokemonClick(action.pokemon)
+      }
+    }
   )
 }
 
@@ -42,10 +48,12 @@ private fun HomeScreen(
   uiState: HomeUiState,
   onAction: (HomeAction) -> Unit,
 ) {
-
-  val paletteMap = remember { mutableStateMapOf<String, Palette>() }
-
-  Box(modifier = Modifier.fillMaxSize()) {
+  
+  Box(
+    modifier = Modifier
+      .fillMaxSize()
+      .statusBarsPadding()
+  ) {
     val threshold = 8
     LazyVerticalGrid(
       columns = GridCells.Fixed(2),
@@ -59,7 +67,7 @@ private fun HomeScreen(
           onAction(HomeAction.FetchPokemons)
         }
 
-        val palette = paletteMap[pokemon.imageUrl]
+        var palette by rememberPaletteState()
         val backgroundColor by palette.paletteBackgroundColor()
 
         PokemonCard(
@@ -67,8 +75,9 @@ private fun HomeScreen(
           pokemonUi = pokemon.toPokemonUi(),
           modifier = Modifier,
           onPaletteLoaded = { newPalette ->
-            paletteMap[pokemon.imageUrl] = newPalette
+            palette = newPalette
           },
+          onClick = { onAction(HomeAction.OnPokemonClick(pokemon)) }
         )
       }
     }

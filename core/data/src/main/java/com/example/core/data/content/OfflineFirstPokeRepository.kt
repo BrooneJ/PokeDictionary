@@ -2,9 +2,10 @@ package com.example.core.data.content
 
 import com.example.core.database.RoomLocalPokemonDataSource
 import com.example.core.domain.content.PokeRepository
-import com.example.core.domain.content.Pokemon
 import com.example.core.domain.content.RemotePokemonDataSource
 import com.example.core.domain.util.Result
+import com.example.core.model.Pokemon
+import com.example.core.model.PokemonDetails
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -39,6 +40,39 @@ class OfflineFirstPokeRepository(
           }
         } else {
           emit(pokemonList.data)
+        }
+      }
+    }
+  }.flowOn(Dispatchers.IO)
+
+  override fun fetchPokemonDetails(name: String): Flow<PokemonDetails?> = flow {
+    when (val roomPokemonDetails = localPokemonDataSource.fetchPokemonDetails(name)) {
+      is Result.Error -> {
+        (emit(null))
+      }
+
+      is Result.Success -> {
+        if (roomPokemonDetails.data.name == "") {
+          when (val remotePokemonDetails = remotePokeDataSource.getPokemonByName(name)) {
+            is Result.Error -> {
+              emit(null)
+            }
+
+            is Result.Success -> {
+              localPokemonDataSource.insertPokemonDetails(remotePokemonDetails.data)
+              when (val localPokemonDetails = localPokemonDataSource.fetchPokemonDetails(name)) {
+                is Result.Error -> {
+                  emit(null)
+                }
+
+                is Result.Success -> {
+                  emit(localPokemonDetails.data)
+                }
+              }
+            }
+          }
+        } else {
+          emit(roomPokemonDetails.data)
         }
       }
     }
